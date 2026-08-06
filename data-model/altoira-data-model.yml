@@ -1,0 +1,219 @@
+generated: '2026-08-06'
+method: derived
+source: openapi/altoira-partner-api-openapi.yml
+docs: https://readme.altoira.com/reference
+summary: >-
+  The entity graph of the AltoIRA.com partner API, derived from the OpenAPI
+  components.schemas and the path structure. The domain has four first-class
+  nouns — User (investor), Account (the IRA itself), Offering (the deal) and
+  Investment (an investor's participation in a deal) — plus three money-movement
+  transaction types nested inside Investment. Note that Offering has no declared
+  component schema: it exists only as request/response bodies on its operations
+  and as the {external_id} path key, so its shape is not reusable in the
+  contract.
+entities:
+- name: User
+  schema: components.schemas.User
+  description: An Alto investor, reachable only in user context via a bearer token.
+  identifier: id
+  identifier_type: integer
+  fields:
+  - id
+  - first_name
+  - last_name
+  - email
+  - accounts
+  operations:
+  - getUser
+  - updateUser
+- name: Account
+  schema: components.schemas.User.properties.accounts.items
+  description: >-
+    A single IRA held by the investor. Carries the investing entity name, the
+    IRA's EIN and address, the authorized signer, and — critically — the banking
+    information a partner must use to return cash to that specific IRA.
+  identifier: alto_account_number
+  identifier_type: integer
+  fields:
+  - account_type
+  - alto_account_number
+  - investing_entity_name
+  - authorized_signer
+  - ira_ein
+  - ira_address
+  - email_address
+  - phone_number
+  - banking_information
+  enums:
+    account_type:
+    - Roth
+  note: >-
+    Alto maintains distinct bank accounts across investors' IRAs and documents
+    getUser as the ONLY source of current routing information for returning cash.
+    There is no generic omnibus account.
+- name: BankingInformation
+  schema: components.schemas.User.properties.accounts.items.properties.banking_information
+  description: Destination bank coordinates for refunds and distributions into an IRA.
+  fields:
+  - bank
+  - recipient
+  - routing_number
+  - account_number
+- name: Offering
+  schema: null
+  description: >-
+    A deal a Platform Partner makes available to Alto investors. Declared only
+    inline on its operations — no reusable component schema.
+  identifier: external_id
+  identifier_type: string
+  identifier_owner: partner
+  fields_documented:
+  - offering_name
+  - entity_type
+  - security_type
+  operations:
+  - getOfferings
+  - getOffering
+  - createOffering
+  - updateOffering
+  - createDocument
+  - createDocumentViaZip
+  - enableOffering
+- name: Investment
+  schema: components.schemas.Investment
+  description: >-
+    An investor's participation in an offering, addressed by the composite key
+    (offering external_id, alto_user_id).
+  identifier: investment_id
+  identifier_type: integer
+  alternate_identifier: external_investment_id
+  fields:
+  - offering_details
+  - investment.investment_id
+  - investment.external_investment_id
+  - investment.amount_invested_to_date
+  - investment.amount_committed_to_invest
+  - investment.date_investor_esigned
+  - investment.investment_transactions
+  operations:
+  - getInvestment
+  - investmentRefund
+  - investmentCancel
+  - investmentDistribution
+  - issueNewCapitalCall
+- name: CapitalCall
+  schema: components.schemas.Investment...investment_transactions.capital_calls.items
+  description: A request for the investor's IRA to fund part of a commitment.
+  fields:
+  - dollar_amount
+  - status
+  - date_created
+  enums:
+    status:
+    - pending
+    - final_review
+    - approved
+    - cancelled
+  operations:
+  - issueNewCapitalCall
+- name: InvestmentRefund
+  schema: components.schemas.Investment...investment_transactions.investment_refunds.items
+  description: Cash returned from the deal to the investor's IRA.
+  fields:
+  - dollar_amount
+  - status
+  - date_requested
+  - date_funds_sent
+  - date_completed
+  enums:
+    status:
+    - pending
+    - cancelled
+    - completed
+    - hold
+  operations:
+  - investmentRefund
+- name: Distribution
+  schema: components.schemas.Investment...investment_transactions.distributions.items
+  description: A payout (e.g. capital gains) into the investor's IRA.
+  fields:
+  - dollar_amount
+  - distribution_type
+  - status
+  - date_requested
+  - date_funds_sent
+  - date_completed
+  enums:
+    status:
+    - pending
+    - cancelled
+    - completed
+    - hold
+  operations:
+  - investmentDistribution
+- name: OAuthToken
+  schema: components.schemas.OAuthToken
+  description: The investor-consent token issued by POST /oauth/token.
+  fields:
+  - token_type
+  - expires_in
+  - access_token
+  - refresh_token
+  enums:
+    token_type:
+    - Bearer
+relationships:
+- from: User
+  to: Account
+  type: has_many
+  via: accounts
+- from: Account
+  to: BankingInformation
+  type: has_one
+  via: banking_information
+- from: Offering
+  to: Investment
+  type: has_many
+  via: external_id (path key)
+- from: User
+  to: Investment
+  type: has_many
+  via: alto_user_id (path key)
+- from: Investment
+  to: Offering
+  type: belongs_to
+  via: offering_details
+- from: Investment
+  to: CapitalCall
+  type: has_many
+  via: investment_transactions.capital_calls
+- from: Investment
+  to: InvestmentRefund
+  type: has_many
+  via: investment_transactions.investment_refunds
+- from: Investment
+  to: Distribution
+  type: has_many
+  via: investment_transactions.distributions
+- from: User
+  to: OAuthToken
+  type: has_one
+  via: OAuth authorization code exchange
+composite_keys:
+- entity: Investment
+  key:
+  - external_id
+  - alto_user_id
+  note: >-
+    Every investment operation is addressed by the offering's partner-supplied
+    external_id plus the Alto user ID. There is no top-level /investments
+    collection, so an investment cannot be looked up by its own ID alone.
+observations:
+- >-
+    A single Alto customer may hold more than one alto_user_id. Alto explicitly
+    advises partners to model a structure supporting different Alto user IDs
+    across different investments, which means alto_user_id is not a reliable
+    person-level key.
+- >-
+    The partner owns the primary namespace: external_id is partner-supplied and
+    is the path key for offerings and investments.

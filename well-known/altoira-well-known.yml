@@ -1,0 +1,127 @@
+generated: '2026-08-06'
+method: searched
+source: live probes of every AltoIRA host found in apis.yml and the OpenAPI servers[]
+notes: >-
+  Alto runs an Auth0 tenant at auth.altoira.com for the investor/issuer web app
+  (app.altoira.com redirects there for universal login). That tenant publishes a
+  complete OIDC discovery document, an RFC 8414 authorization-server metadata
+  document (byte-identical to the OIDC one) and a JWKS. This is a SEPARATE
+  authorization server from the partner API's own OAuth 2.0 endpoints, which the
+  OpenAPI declares at altoira.sandbox.altoira.com/oauth/{authorize,token} — do not
+  conflate the two. No /.well-known/security.txt, api-catalog, ai-plugin.json,
+  agent-card.json or agent.json was served by any Alto host.
+hosts:
+- host: https://auth.altoira.com
+  role: Auth0 tenant for the Alto investor + issuer web application
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: altoira-openid-configuration.json
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: altoira-oauth-authorization-server.json
+  - path: /.well-known/jwks.json
+    status: 200
+- host: https://www.altoira.com
+  role: marketing site + partner API production server
+  documents:
+  - path: /llms.txt
+    status: 200
+    file: ../llms/altoira-llms.txt
+  - path: /robots.txt
+    status: 200
+  - path: /sitemap.xml
+    status: 200
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://api.altoira.com
+  role: resolves in DNS but serves 404 on every probed path; not the partner API host
+  documents:
+  - path: /openapi.json
+    status: 404
+  - path: /swagger.json
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://readme.altoira.com
+  role: ReadMe-hosted developer hub for the partner API
+  documents:
+  - path: /llms.txt
+    status: 200
+    file: altoira-readme-llms.txt
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+oidc:
+  issuer: https://auth.altoira.com/
+  provider: Auth0
+  authorization_endpoint: https://auth.altoira.com/authorize
+  token_endpoint: https://auth.altoira.com/oauth/token
+  userinfo_endpoint: https://auth.altoira.com/userinfo
+  jwks_uri: https://auth.altoira.com/.well-known/jwks.json
+  registration_endpoint: https://auth.altoira.com/oidc/register
+  revocation_endpoint: https://auth.altoira.com/oauth/revoke
+  device_authorization_endpoint: https://auth.altoira.com/oauth/device/code
+  scopes_supported:
+  - openid
+  - profile
+  - offline_access
+  - name
+  - given_name
+  - family_name
+  - nickname
+  - email
+  - email_verified
+  - picture
+  - created_at
+  - identities
+  - phone
+  - address
+  code_challenge_methods_supported:
+  - S256
+  - plain
+  id_token_signing_alg_values_supported:
+  - HS256
+  - RS256
+  - PS256
+  token_endpoint_auth_methods_supported:
+  - client_secret_basic
+  - client_secret_post
+  - private_key_jwt
+  - none
+  backchannel_logout_supported: true
+  request_parameter_supported: false
+x-evidence:
+  fetched: '2026-08-06'
+  probes:
+  - url: https://auth.altoira.com/.well-known/openid-configuration
+    http_status: 200
+  - url: https://auth.altoira.com/.well-known/oauth-authorization-server
+    http_status: 200
+  - url: https://auth.altoira.com/.well-known/jwks.json
+    http_status: 200
+  - url: https://www.altoira.com/llms.txt
+    http_status: 200
+  - url: https://www.altoira.com/.well-known/security.txt
+    http_status: 404
+  - url: https://readme.altoira.com/llms.txt
+    http_status: 200

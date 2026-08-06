@@ -1,0 +1,73 @@
+generated: '2026-08-06'
+method: searched
+source: https://readme.altoira.com/docs/investment-status-and-webhooks
+spec: asyncapi/altoira-investments-asyncapi.yml
+summary: >-
+  Alto delivers investment-lifecycle webhooks to a Platform Partner's registered
+  endpoint. Six event names are documented. Alto singles out investment_signed,
+  investment_paid and investment_cancelled as "the three most valuable webhooks
+  provided". Investment status is also available on demand via the getInvestment
+  REST operation.
+delivery:
+  transport: https
+  method: POST
+  content_type: application/json
+  endpoint_registration: >-
+    Per-partner, configured with Alto during onboarding. Alto publishes no shared
+    delivery host and no subscription-management API.
+  discriminator: event_name
+  signature_verification: >-
+    Not documented. The published payload carries a `nonce` integer but Alto's
+    documentation describes no HMAC signature header or verification procedure.
+  retry_policy: not documented
+events:
+- name: investment_signed
+  description: Investor signs DOI for initial commitment amount
+  notes: One of the three events Alto flags as most valuable.
+- name: investment_paid
+  description: Alto sends payment for the investor's commitment
+  notes: One of the three events Alto flags as most valuable.
+- name: investment_cancelled
+  description: >-
+    The investor has alerted Alto that they have chosen to not take part in this
+    investment
+  notes: >-
+    Spelled with two l's. Not triggered if the investor has not completed their
+    Direction of Investment (DOI).
+- name: commitment_amount_changed
+  description: >-
+    The investor has alerted Alto that they would like to make a change to their
+    commitment amount
+  notes: >-
+    Extremely rare. Alto recommends investors make commitment changes on the
+    Platform Partner's site first.
+- name: new_contribution_approved
+  description: The investor has signed the DOI for an investment increase
+- name: investment_increase_rejected
+  description: >-
+    The investor has informed Alto that they do not intend to complete the DOI
+    for an investment increase
+payload_fields:
+- field: event_name
+  type: string
+- field: offering_id
+  type: string
+  description: The offering's external_id (the partner's own offering identifier)
+- field: alto_investment_id
+  type: integer
+- field: external_investment_id
+  type: string
+- field: nonce
+  type: integer
+polling_alternative:
+  operation: getInvestment
+  path: /api/platform/offering/{external_id}/{alto_user_id}/investment
+  note: >-
+    Returns payment dates for every payment on an investment plus commitment
+    amount and related transactions. Alto reports only the commitment amount for
+    which the investor has actually executed a DOI.
+x-evidence:
+  fetched: '2026-08-06'
+  url: https://readme.altoira.com/docs/investment-status-and-webhooks
+  http_status: 200
+  updated_at: '2025-10-17T21:03:29.000Z'

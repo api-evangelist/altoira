@@ -1,0 +1,122 @@
+generated: '2026-08-06'
+method: derived
+source: openapi/altoira-partner-api-openapi.yml
+status: candidate
+published: false
+search_note: >-
+  No official or community MCP server for Alto was found. Probed the ReadMe
+  developer hub, altoira.com, the AltoIRA GitHub organization (19 public repos,
+  all forks of infrastructure tooling — no product code, no SDK, no MCP server),
+  npm, PyPI, RubyGems, Packagist, NuGet and crates.io. The tool list below is a
+  CANDIDATE derived one-to-one from the published OpenAPI operations; Alto does
+  not operate this server.
+server:
+  name: altoira
+  transport: http
+  url: null
+  auth:
+    note: >-
+      A real server would need to carry two credentials at once: the partner's
+      HTTP Basic PlatformAuth for manager-context tools, and a per-investor
+      OAuth bearer token for the two user-context tools. They are not
+      interchangeable.
+tools:
+- name: get_user
+  description: >-
+    Get the authenticated investor's account information, including every IRA
+    they hold and the destination banking information for returning cash to it.
+  source_operation: openapi/altoira-partner-api-openapi.yml#getUser
+  auth: UserAuth
+  consequence: read
+- name: update_user
+  description: Update the investor's account information.
+  source_operation: openapi/altoira-partner-api-openapi.yml#updateUser
+  auth: UserAuth
+  consequence: write
+- name: list_offerings
+  description: List all offerings the partner has created in Alto.
+  source_operation: openapi/altoira-partner-api-openapi.yml#getOfferings
+  auth: PlatformAuth
+  consequence: read
+- name: get_offering
+  description: Retrieve the details of a single offering by its external ID.
+  source_operation: openapi/altoira-partner-api-openapi.yml#getOffering
+  auth: PlatformAuth
+  consequence: read
+- name: create_offering
+  description: >-
+    Create a new Alto offering — company or fund name and incorporation, security
+    type, and the bank information Alto will send funds to.
+  source_operation: openapi/altoira-partner-api-openapi.yml#createOffering
+  auth: PlatformAuth
+  consequence: write
+- name: update_offering
+  description: Update a previously created offering.
+  source_operation: openapi/altoira-partner-api-openapi.yml#updateOffering
+  auth: PlatformAuth
+  consequence: write
+- name: upload_offering_document
+  description: Upload a single offering document (multipart/form-data).
+  source_operation: openapi/altoira-partner-api-openapi.yml#createDocument
+  auth: PlatformAuth
+  consequence: write
+- name: upload_offering_documents_zip
+  description: Upload a .zip archive of offering documents.
+  source_operation: openapi/altoira-partner-api-openapi.yml#createDocumentViaZip
+  auth: PlatformAuth
+  consequence: write
+- name: enable_offering_for_investor
+  description: >-
+    Allow an investor to participate in an offering and set or change their
+    investment amount.
+  source_operation: openapi/altoira-partner-api-openapi.yml#enableOffering
+  auth: PlatformAuth
+  consequence: write
+- name: get_investment
+  description: >-
+    View the details of an existing investment, including committed vs invested
+    amounts, DOI e-signature date, and every capital call, refund and
+    distribution transaction.
+  source_operation: openapi/altoira-partner-api-openapi.yml#getInvestment
+  auth: PlatformAuth
+  consequence: read
+- name: refund_investment
+  description: Refund the investor some or all of their capital.
+  source_operation: openapi/altoira-partner-api-openapi.yml#investmentRefund
+  auth: PlatformAuth
+  consequence: physical
+  human_in_the_loop: recommended
+- name: cancel_investment
+  description: Cancel an investment if funds have not already been sent.
+  source_operation: openapi/altoira-partner-api-openapi.yml#investmentCancel
+  auth: PlatformAuth
+  consequence: write
+- name: issue_distribution
+  description: Pay out a distribution to the investor's IRA.
+  source_operation: openapi/altoira-partner-api-openapi.yml#investmentDistribution
+  auth: PlatformAuth
+  consequence: physical
+  human_in_the_loop: recommended
+- name: issue_capital_call
+  description: Issue a new capital call against the investor's commitment.
+  source_operation: openapi/altoira-partner-api-openapi.yml#issueNewCapitalCall
+  auth: PlatformAuth
+  consequence: physical
+  human_in_the_loop: recommended
+excluded_operations:
+- path: /oauth/authorize
+  reason: >-
+    Browser redirect for investor consent, tagged "handoffs". Not a callable API
+    endpoint — cannot be a tool.
+- path: /offering/platform/{platform_code}/{external_id}
+  reason: >-
+    Browser redirect that sends the investor to Alto to complete their Direction
+    of Investment. Tagged "handoffs".
+- path: /oauth/token
+  reason: >-
+    Credential exchange. Belongs in the server's auth layer, not in the tool
+    surface.
+coverage:
+  openapi_operations: 17
+  callable_operations: 14
+  candidate_tools: 14

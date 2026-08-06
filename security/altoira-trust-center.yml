@@ -1,0 +1,45 @@
+generated: '2026-08-06'
+method: probed
+probe: true
+url: https://trust.altoira.com/
+title: Alto Trust Center
+platform: Vanta
+certifications: []
+certifications_readable: false
+detail: >-
+  Alto publishes a trust center at trust.altoira.com. It is verified live: the
+  host CNAMEs to Vanta (68cc37f32db8854ae217e531.cname.vantatrust.com), returns
+  HTTP 200, and the served HTML carries <title>Alto Trust Center</title>, a
+  canonical link to https://trust.altoira.com, and og:description "The secure
+  self-directed IRA platform for all your alternatives". The page body is a
+  client-rendered Vanta single-page application — the 6.6KB HTML shell contains
+  no certification names — and Vanta's backing API (api.vanta.com/v1/trust-pages)
+  returns 401 to an anonymous caller. Requests to trust.altoira.com under any
+  guessed API path return the SPA shell with a 200 (soft-404), which is not
+  evidence of an endpoint.
+  Consequence: API Evangelist can confirm the trust center EXISTS but cannot read
+  any named certification (SOC 2, ISO 27001, PCI DSS, HIPAA, FedRAMP) from it
+  without a browser. No certification is therefore asserted, and no `Compliance`
+  pointer is wired in apis.yml. A grep of altoira.com's homepage, about, FAQ,
+  legal, contact and Alto Trust Company pages found no named certification
+  either.
+  This is a provider-fixable gap: serving the certification list as static HTML
+  or exposing an anonymous JSON view would make Alto's compliance posture
+  machine-readable.
+evidence:
+- source: https://trust.altoira.com/
+  http_status: 200
+  content_type: text/html
+  keywords:
+  - Alto Trust Center
+  - Trust, Security, Compliance, Automation
+  note: JS-rendered Vanta SPA; certification names not present in the served HTML.
+- source: https://api.vanta.com/v1/trust-pages/pgbmbtllndywbuh6bxxjo
+  http_status: 401
+  note: Vanta trust-page data API rejects anonymous requests.
+- source: dig trust.altoira.com
+  result: 68cc37f32db8854ae217e531.cname.vantatrust.com
+x-evidence:
+  fetched: '2026-08-06'
+  url: https://trust.altoira.com/
+  http_status: 200

@@ -1,0 +1,128 @@
+generated: '2026-08-06'
+method: derived
+source: openapi/altoira-partner-api-openapi.yml
+docs: https://readme.altoira.com/reference
+format: custom
+envelope:
+  description: >-
+    Alto does NOT use RFC 9457 problem+json. Two response shapes appear in the
+    OpenAPI. Money-movement operations (distribution) return an explicit
+    {"error": true, "message": "..."} JSON object. The shared Unauthorized
+    response returns {"message": "..."}. The remaining 4xx responses are declared
+    with a description and status code only — no schema and no content type — so
+    the body shape for those is undocumented.
+  fields:
+  - name: error
+    type: boolean
+    description: Present on distribution failures; always true.
+  - name: message
+    type: string
+    description: Human-readable failure reason. Not a stable machine-readable code.
+  content_type: application/json
+  machine_readable_code: false
+  note: >-
+    There is no error `code` or `type` field anywhere in the contract. Clients
+    must branch on HTTP status, and — for distribution — on the free-text
+    `message` string. This is the single biggest agent-readiness gap in the
+    contract.
+problems:
+- status: 400
+  title: Invalid user supplied
+  source_operation: openapi/altoira-partner-api-openapi.yml#updateUser
+  schema_documented: false
+- status: 404
+  title: User not found
+  source_operation: openapi/altoira-partner-api-openapi.yml#updateUser
+  schema_documented: false
+- status: 404
+  title: You have not created the deal in Alto
+  remediation: >-
+    Create the offering first with createOffering before requesting it.
+  source_operation: openapi/altoira-partner-api-openapi.yml#getOffering
+  schema_documented: false
+- status: 409
+  title: Failure
+  description: >-
+    Conflict returned by offering creation, indicating the offering already
+    exists for the supplied external_id.
+  source_operation: openapi/altoira-partner-api-openapi.yml#createOffering
+  schema_documented: false
+- status: 422
+  title: Unprocessable entity — the update could not be applied
+  description: >-
+    Returned when a field that already has a value would be changed ("Cannot
+    change value for existing field: {field}"), or when the request contains no
+    updatable fields ("No data was detected in your payload").
+  messages:
+  - 'Cannot change value for existing field: {field}'
+  - No data was detected in your payload
+  source_operation: openapi/altoira-partner-api-openapi.yml#updateOffering
+  schema_documented: false
+- status: 404
+  title: Offering hasn't been created
+  remediation: Call createOffering, then upload the required documents, then retry.
+  source_operation: openapi/altoira-partner-api-openapi.yml#enableOffering
+  schema_documented: false
+- status: 422
+  title: >-
+    If called after a user has already signed off on the investment, a failure is
+    returned
+  description: >-
+    Enabling or re-amounting an offering for an investor is rejected once the
+    investor has executed their Direction of Investment.
+  source_operation: openapi/altoira-partner-api-openapi.yml#enableOffering
+  schema_documented: false
+- status: 422
+  title: The investment could not be cancelled
+  description: >-
+    Returned when funds have already been sent, so a refund is required instead
+    ("Cannot cancel, please issue a capital_refund."), or when no matching
+    offering is found ("Offering not found").
+  messages:
+  - Cannot cancel, please issue a capital_refund.
+  - Offering not found
+  remediation: >-
+    If funds have already moved, call investmentRefund instead of
+    investmentCancel.
+  source_operation: openapi/altoira-partner-api-openapi.yml#investmentCancel
+  schema_documented: false
+- status: 404
+  title: Investment not found
+  message_example: Investment not found for the given investment_id, offering, and user.
+  source_operation: openapi/altoira-partner-api-openapi.yml#investmentDistribution
+  schema_documented: true
+- status: 422
+  title: No bank account configured
+  message_example: No bank account is configured for this investment's IRA.
+  remediation: >-
+    Read the current destination bank account from the getUser response before
+    returning cash — Alto maintains distinct bank accounts per IRA and getUser is
+    the only source of current routing information.
+  source_operation: openapi/altoira-partner-api-openapi.yml#investmentDistribution
+  schema_documented: true
+- status: 503
+  title: Bank verification temporarily unavailable
+  message_example: >-
+    Unable to verify bank account information due to a temporary service issue;
+    please retry.
+  retryable: true
+  remediation: >-
+    Retry. Note that the API documents no idempotency key, so a blind retry of a
+    distribution carries duplicate-payment risk — reconcile with getInvestment
+    before retrying.
+  source_operation: openapi/altoira-partner-api-openapi.yml#investmentDistribution
+  schema_documented: true
+- status: 401
+  title: Unauthorized
+  description: >-
+    Shared components.responses.Unauthorized. Body is {"message": "..."}.
+  source_operation: openapi/altoira-partner-api-openapi.yml#components/responses/Unauthorized
+  schema_documented: true
+coverage:
+  operations_total: 17
+  operations_with_4xx_or_5xx: 7
+  operations_with_only_2xx: 10
+  gap: >-
+    10 of 17 operations declare no error responses at all, and 8 of the 12
+    declared failures carry no response schema. An agent cannot determine the
+    failure body shape for most of this API from the contract.

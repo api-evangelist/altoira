@@ -1,0 +1,66 @@
+generated: '2026-08-06'
+method: derived
+source: openapi/altoira-partner-api-openapi.yml
+docs: https://readme.altoira.com/reference
+summary: >-
+  Alto operates a separate sandbox environment for partner integration. It is
+  declared as the first server in the published OpenAPI and is the host the
+  "Try It" console on the ReadMe hub calls. Alto publishes NO test credentials,
+  no magic test values, no fixture tooling and no time simulation — sandbox
+  access is provisioned by Alto during partner onboarding, which begins with a
+  sales discovery meeting rather than self-service signup.
+environments:
+- name: sandbox
+  url: https://altoira.sandbox.altoira.com
+  description: Test API / Sandbox
+  declared_in: openapi servers[0]
+  default_for_console: true
+- name: production
+  url: https://www.altoira.com
+  description: Production API
+  declared_in: openapi servers[1]
+oauth_endpoints_are_sandbox_scoped: true
+oauth_endpoint_note: >-
+  The UserOauth security scheme hardcodes the SANDBOX host in all three flow
+  URLs — authorizationUrl, tokenUrl and refreshUrl all point at
+  https://altoira.sandbox.altoira.com. A client generated straight from this
+  spec would authenticate against the sandbox even when calling the production
+  server. This is a real defect in the published contract, not an
+  interpretation.
+credentials:
+  self_service: false
+  published_test_credentials: false
+  detail: >-
+    PlatformAuth is described as "Basic Auth credentials that were assigned to
+    you by Alto". There is no developer signup, no key-generation page, and no
+    published sandbox username/password. Access is granted through partner
+    onboarding — the issuer integration page's only call to action is a HubSpot
+    discovery meeting, and Alto states most integrations complete in 4-6 weeks.
+test_values:
+  published: false
+  detail: >-
+    No test bank accounts, no test routing numbers, no magic investor IDs, no
+    simulated decline or failure triggers. The example values in the OpenAPI
+    (routing_number 123456789, alto_account_number 100, investment_id 556) are
+    documentation samples, NOT working sandbox fixtures — do not treat them as
+    callable test data.
+time_simulation:
+  supported: false
+  detail: >-
+    No test clocks. This is a material gap for this domain: the investment
+    lifecycle spans DOI signature, funding, capital calls and distributions over
+    days to months, and there is no documented way to advance an investment
+    through those states in the sandbox.
+event_triggers:
+  supported: false
+  detail: >-
+    No documented way to trigger the six investment webhooks on demand in the
+    sandbox.
+x-evidence:
+  fetched: '2026-08-06'
+  probes:
+  - url: https://readme.altoira.com/reference
+    http_status: 200
+  - url: https://www.altoira.com/issuer-integration
+    http_status: 200
+    note: sales-gated onboarding; only CTA is a HubSpot meeting scheduler

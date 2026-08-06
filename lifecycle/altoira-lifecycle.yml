@@ -1,0 +1,59 @@
+generated: '2026-08-06'
+method: searched
+source: https://readme.altoira.com/reference
+versioning:
+  scheme: none
+  current: '1.0.0'
+  detail: >-
+    The OpenAPI declares info.version 1.0.0. The ReadMe developer hub publishes
+    the API under branch "0.1" (readme-version meta tag). Neither the request
+    path, a header, nor a date parameter carries a version, so there is no
+    client-selectable API version.
+  spec_last_updated: '2026-07-28T21:03:53.263Z'
+  spec_created: '2025-04-29T20:23:31.398Z'
+  spec_filename: altoiracom-api.json
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: not documented
+  deprecated_operations: []
+  detail: >-
+    No deprecation policy, no Sunset/Deprecation header support (RFC 8594), and
+    no operation in the OpenAPI carries deprecated: true.
+change_log:
+  published: false
+  detail: >-
+    The ReadMe hub has a Changelog section configured but publishes no entries
+    (/changelog returns 404 and the hub renders "No Changelogs"). The only
+    published change signal is the OpenAPI file's updated_at timestamp.
+sla:
+  url: null
+  uptime_target: null
+  detail: No published SLA or uptime commitment for the partner API.
+status_page:
+  url: https://status.altoira.com/
+  provider: Atlassian Statuspage
+  api: https://status.altoira.com/api/v2/summary.json
+  components:
+  - name: Web app (app.altoira.com)
+  - name: Alto Marketplace
+  - name: Main website (altoira.com)
+  - name: Support center (help.altoira.com)
+  gap: >-
+    The status page tracks four consumer-facing surfaces. Neither the partner API
+    nor the sandbox (altoira.sandbox.altoira.com) is a tracked component, so a
+    Platform Partner has no availability signal for the interface they integrate
+    against.
+docs:
+  developer_hub: https://readme.altoira.com/
+  api_reference: https://readme.altoira.com/reference
+  hub_platform: ReadMe
+x-evidence:
+  fetched: '2026-08-06'
+  probes:
+  - url: https://status.altoira.com/api/v2/summary.json
+    http_status: 200
+  - url: https://readme.altoira.com/reference
+    http_status: 200
+  - url: https://readme.altoira.com/changelog
+    http_status: 404

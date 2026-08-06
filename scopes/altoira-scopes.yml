@@ -1,0 +1,44 @@
+generated: '2026-08-06'
+method: derived
+source: openapi/altoira-partner-api-openapi.yml
+schemes:
+- name: UserOauth
+  source: openapi/altoira-partner-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://altoira.sandbox.altoira.com/oauth/authorize
+    tokenUrl: https://altoira.sandbox.altoira.com/oauth/token
+  description: Redirect your users to /oauth/authorize to get started (see the OAuth section on this
+    documentation)
+scopes: []
+docs: null
+note: 'The partner API''s oauth2 authorizationCode flow declares an EMPTY scopes map, and Alto''s
+  developer hub documents no scope reference page. The /oauth/authorize operation accepts a `scope`
+  query parameter but no permitted values are published, so an integrator cannot determine what to
+  send. This is a provider-fixable documentation gap.
+
+  Separately, Alto runs an Auth0 tenant at auth.altoira.com for the investor/issuer web application
+  which DOES publish scopes_supported (openid, profile, offline_access, name, given_name, family_name,
+  nickname, email, email_verified, picture, created_at, identities, phone, address). That is a DIFFERENT
+  authorization server from the partner API''s own OAuth endpoints and its scopes are deliberately
+  NOT listed as partner-API scopes here. See well-known/altoira-well-known.yml.'
+separate_authorization_server:
+  issuer: https://auth.altoira.com/
+  provider: Auth0
+  role: investor + issuer web application login (app.altoira.com)
+  discovery: well-known/altoira-openid-configuration.json
+  scopes_supported:
+  - openid
+  - profile
+  - offline_access
+  - name
+  - given_name
+  - family_name
+  - nickname
+  - email
+  - email_verified
+  - picture
+  - created_at
+  - identities
+  - phone
+  - address

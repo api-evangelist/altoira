@@ -1,0 +1,91 @@
+generated: '2026-08-06'
+method: derived
+source: openapi/altoira-partner-api-openapi.yml
+docs: https://readme.altoira.com/reference
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: >-
+    Published OpenAPI 3.0.1 document (altoiracom-api.json) served by the ReadMe
+    developer hub at readme.altoira.com/reference.
+- id: oauth2
+  conforms: true
+  evidence: >-
+    components.securitySchemes.UserOauth is type oauth2 with an authorizationCode
+    flow declaring authorizationUrl, tokenUrl and refreshUrl.
+- id: oauth2-authorization-code
+  conforms: true
+  evidence: >-
+    Documented investor consent handoff — client_id, response_type=code,
+    redirect_uri matched against a registered value, code exchanged at
+    POST /oauth/token.
+- id: rfc6750-bearer
+  conforms: true
+  evidence: >-
+    UserAuth is http/bearer; user-context operations use "Authorization: Bearer".
+- id: rfc7617-http-basic
+  conforms: true
+  evidence: PlatformAuth is http/basic for all manager-context operations.
+- id: oidc
+  conforms: partial
+  evidence: >-
+    The partner API itself is not OIDC. Alto separately runs an Auth0 tenant at
+    auth.altoira.com for the investor/issuer web application which serves a
+    complete OIDC discovery document, JWKS, and supports PKCE (S256) and
+    back-channel logout. That tenant is not the partner API's authorization
+    server.
+    See well-known/altoira-well-known.yml.
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: partial
+  evidence: >-
+    auth.altoira.com serves /.well-known/oauth-authorization-server (200). The
+    partner API's own OAuth endpoints at altoira.sandbox.altoira.com publish no
+    metadata document.
+- id: rfc7636-pkce
+  conforms: partial
+  evidence: >-
+    code_challenge_methods_supported [S256, plain] on the Auth0 tenant. PKCE is
+    not mentioned in the partner API's OAuth documentation.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors use a custom {"error": bool, "message": string} shape, not
+    application/problem+json. See errors/altoira-problem-types.yml.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on every Alto host probed.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No deprecation policy or Sunset header support documented.
+- id: idempotency-key
+  conforms: false
+  evidence: >-
+    No idempotency key on any operation, including the money-movement operations
+    investmentDistribution, investmentRefund and issueNewCapitalCall.
+- id: pagination
+  conforms: false
+  evidence: getOfferings declares no pagination parameters or envelope.
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    Alto documents six webhook events but publishes no AsyncAPI document. API
+    Evangelist derived one at asyncapi/altoira-investments-asyncapi.yml.
+- id: webhook-signature-verification
+  conforms: false
+  evidence: >-
+    The webhook payload carries a `nonce` integer but no HMAC signature header or
+    verification procedure is documented.
+regulatory_context:
+  note: >-
+    Recorded as context, NOT as a conformance claim. Alto operates regulated
+    entities — Alto Trust Company acts as the self-directed IRA custodian, and
+    Alto Securities, LLC is a FINRA member broker-dealer with SIPC coverage. Alto
+    also publishes a Vanta-hosted trust center at trust.altoira.com. API
+    Evangelist could not read any named certification from that trust center
+    (see security/altoira-trust-center.yml), so no compliance certification is
+    asserted here and no Compliance pointer is wired in apis.yml.
+  entities:
+  - name: Alto Trust Company
+    role: self-directed IRA custodian
+  - name: Alto Securities, LLC
+    role: broker-dealer, FINRA member, SIPC

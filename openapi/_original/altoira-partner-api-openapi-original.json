@@ -1,0 +1,1479 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "AltoIRA.com API",
+    "contact": {
+      "name": "AltoIRA",
+      "email": "help@altoira.com",
+      "url": "https://www.altoira.com"
+    }
+  },
+  "externalDocs": {
+    "description": "Webhooks",
+    "url": "https://altoira.sandbox.altoira.com/documents/webhooks.txt"
+  },
+  "servers": [
+    {
+      "url": "https://altoira.sandbox.altoira.com",
+      "description": "Test API / Sandbox"
+    },
+    {
+      "url": "https://www.altoira.com",
+      "description": "Production API"
+    }
+  ],
+  "tags": [
+    {
+      "name": "handoffs",
+      "description": "These are the endpoints you will redirect your investors to (these are NOT api endpoints so you cannot use the Try it out tool)"
+    },
+    {
+      "name": "oauth",
+      "description": "Provides access to an investor's account. Generates a token to be used with the \"user\" endpoints below"
+    },
+    {
+      "name": "user",
+      "description": "These actions are performed within the context of a specific user (uses OAuth2 with an `Authorization: Bearer` header)"
+    },
+    {
+      "name": "offering",
+      "description": "The actions are performed as the manager of an offering, not as a specific user. Authentication uses the `Basic Auth` header"
+    },
+    {
+      "name": "investment",
+      "description": "The actions are performed as the manager of an offering, not as a specific user. Authentication uses the `Basic Auth` header (same as the Offering endpoints)"
+    }
+  ],
+  "paths": {
+    "/oauth/authorize": {
+      "get": {
+        "tags": [
+          "handoffs"
+        ],
+        "summary": "Allows investor to approve access to his/her account",
+        "description": "Once access is approved by the investor, we will generate an auth \"code\" and send it back to your `redirect_uri` in a query string parameter named \"code\".",
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "query",
+            "description": "Alto Provided Code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "response_type",
+            "in": "query",
+            "required": true,
+            "description": "Use \"code\"",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "code"
+              ]
+            }
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "required": false,
+            "description": "Not used. Leave this blank — Alto does not scope access; a token grants full access to the investor's account.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "redirect_uri",
+            "in": "query",
+            "required": true,
+            "description": "Must match what we have on file",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response (you are redirecting the user to Alto's site)"
+          }
+        }
+      }
+    },
+    "/offering/platform/{platform_code}/{external_id}": {
+      "get": {
+        "tags": [
+          "handoffs"
+        ],
+        "summary": "Allows the user to complete the funding process",
+        "description": "Ensure that you have first enabled access to the Offering for this investor (see /api/platform/offering/{external_id}/enable_for_investor)",
+        "parameters": [
+          {
+            "name": "platform_code",
+            "in": "path",
+            "required": true,
+            "description": "The code assigned to your account (ie: angellist)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/external_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response (you are redirecting the user to Alto's site)"
+          }
+        }
+      }
+    },
+    "/oauth/token": {
+      "post": {
+        "tags": [
+          "oauth"
+        ],
+        "summary": "Generate a token to access an investor's account.",
+        "description": "Access Tokens expire after  15 days (regardless of use). Refresh tokens expire after 90 days and can only be used once (a new refresh token is issued upon refresh)",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "grant_type": {
+                    "type": "string",
+                    "enum": [
+                      "authorization_code",
+                      "refresh_token"
+                    ]
+                  },
+                  "code": {
+                    "type": "string",
+                    "example": "f50200eb98f70150f132d24b6a65ee9d1eb9895d5191fef52996528..."
+                  },
+                  "refresh_token": {
+                    "type": "string",
+                    "example": "f50200eb98f70150f132d24b6a65ee9d1eb9895d5191fef52996528"
+                  },
+                  "client_id": {
+                    "type": "string",
+                    "description": "Alto Provided Code",
+                    "example": "111111"
+                  },
+                  "client_secret": {
+                    "type": "string",
+                    "description": "Alto Provided Code",
+                    "example": "09397056dbe85fef52975a610e1e3a96528"
+                  },
+                  "redirect_uri": {
+                    "type": "string",
+                    "example": "https://example.com/altoira/oauth_complete"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token issued",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OAuthToken"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user": {
+      "get": {
+        "security": [
+          {
+            "UserAuth": []
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "summary": "Get user account information",
+        "description": "Retrieve account information for the user you’re logged-in as",
+        "operationId": "getUser",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "UserAuth": []
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "summary": "Updates the user’s account information",
+        "description": "This is meant to be called one time immediately after the user first grants you OAuth access to their account. Values that contradict user-supplied info will not be saved. Data submitted is first reviewed by the investor before being updated to update their account details",
+        "operationId": "updateUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ssn": {
+                    "type": "string",
+                    "example": "123-44-6666"
+                  },
+                  "dob": {
+                    "type": "string",
+                    "example": "1980-10-05"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "480-950-0001"
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "405 Main St"
+                  },
+                  "address_line_2": {
+                    "type": "string",
+                    "example": "Apt 2"
+                  },
+                  "city": {
+                    "type": "string",
+                    "example": "Nashville"
+                  },
+                  "state": {
+                    "type": "string",
+                    "example": "TN"
+                  },
+                  "zip": {
+                    "type": "string",
+                    "example": "37209"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "400": {
+            "description": "Invalid user supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/api/platform/offerings": {
+      "get": {
+        "security": [
+          {
+            "PlatformAuth": []
+          }
+        ],
+        "tags": [
+          "offering"
+        ],
+        "summary": "List of all Offerings",
+        "description": "Returns of the list of the external_ids for all offerings that have ever been setup in Alto.",
+        "operationId": "getOfferings",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "example": [
+                    "8293",
+                    "21923",
+                    "4532"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/platform/offering/{external_id}": {
+      "get": {
+        "security": [
+          {
+            "PlatformAuth": []
+          }
+        ],
+        "tags": [
+          "offering"
+        ],
+        "summary": "Offering details",
+        "description": "This endpoint allows you to retrieve details about one of your offerings using the ID numbers you specified on creation (not the Alto offering ID).",
+        "operationId": "getOffering",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/external_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "12345",
+                      "description": "The external ID you assigned to this offering (same value as the path parameter)."
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "AngelList - Acme Toys Seed Round"
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "company"
+                      ]
+                    },
+                    "documents": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number",
+                            "example": 123
+                          },
+                          "filename": {
+                            "type": "string",
+                            "example": "agreement.pdf"
+                          },
+                          "type": {
+                            "type": "string",
+                            "example": "subscription_agreement"
+                          }
+                        }
+                      }
+                    },
+                    "missing_documents": {
+                      "type": "array",
+                      "example": [
+                        "operating_agreement"
+                      ],
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "You have not created the deal in Alto"
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "PlatformAuth": []
+          }
+        ],
+        "tags": [
+          "offering"
+        ],
+        "summary": "Create a new Alto Offering",
+        "description": "Investors will not be able to complete the funding process until required documents are uploaded for the offering. If the Offering already exists, no action will be taken.",
+        "operationId": "createOffering",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/external_id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "AngelList - Acme Toys Seed Round"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "company"
+                    ]
+                  },
+                  "funds_recipient": {
+                    "type": "string",
+                    "description": "The actual recipient of funds (not the intermediate entity)",
+                    "example": "Acme Toys, LLC"
+                  },
+                  "entity_type": {
+                    "type": "string",
+                    "enum": [
+                      "llc",
+                      "lp",
+                      "c_corp"
+                    ]
+                  },
+                  "security_type": {
+                    "type": "string",
+                    "enum": [
+                      "units",
+                      "shares",
+                      "ownership_percent",
+                      "convertible_note",
+                      "promissory_note",
+                      "safe",
+                      "membership_interest",
+                      "partnership_interest",
+                      "crowd_safe_st",
+                      "crowd_safe",
+                      "crowd_sda",
+                      "crowd_tpa",
+                      "token_dpa"
+                    ]
+                  },
+                  "tax_id": {
+                    "type": "string",
+                    "description": "(Optional) For type=company, the Employer ID Number is needed at some point",
+                    "example": "22-1234567"
+                  },
+                  "valuation_cap": {
+                    "type": "number",
+                    "example": 2000000,
+                    "description": "(Optional) Maximum valuation in USD for this round"
+                  },
+                  "discount_percent": {
+                    "type": "number",
+                    "example": 15,
+                    "description": "(Optional) Discount to next equity financing (used for SAFE & Convertible Note)"
+                  },
+                  "has_capital_calls": {
+                    "type": "boolean",
+                    "example": 1,
+                    "description": "(Optional) Defaults to false. If false, the commitment is fully funded at closing. If true, capital calls can be issued after closing. Using capital calls will prevent you from increasing the investment amount after closing."
+                  },
+                  "funds_transfer_type": {
+                    "type": "string",
+                    "example": "ach",
+                    "description": "(Optional) How you want us to send the funds. ACH is default.",
+                    "enum": [
+                      "ach",
+                      "wire"
+                    ]
+                  },
+                  "routing_num": {
+                    "type": "number",
+                    "example": 12345687,
+                    "description": "Bank account to send your funds to"
+                  },
+                  "account_num": {
+                    "type": "number",
+                    "example": 51391323,
+                    "description": "Bank account to send your funds to"
+                  },
+                  "account_holder_name": {
+                    "type": "string",
+                    "example": "ACME Widgets, LLC",
+                    "description": "(Optional) Name on bank account we're sending your funds to"
+                  },
+                  "account_holder_address": {
+                    "type": "string",
+                    "example": "1234 Your Business Blvd, Suite 111, Nashville, TN",
+                    "description": "(Optional) The billing address registered on your bank account"
+                  },
+                  "bank_name": {
+                    "type": "string",
+                    "example": "Bank of America",
+                    "description": "(Optional) Bank account to send your funds to"
+                  },
+                  "bank_address": {
+                    "type": "string",
+                    "example": "3003 Tasman Drive, Santa Clara, CA 95054",
+                    "description": "(Optional) Physical address of the bank itself"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful"
+          },
+          "409": {
+            "description": "Failure"
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "PlatformAuth": []
+          }
+        ],
+        "tags": [
+          "offering"
+        ],
+        "summary": "Update a previously created offering",
+        "description": "Certain fields can be added after initial Offering creation",
+        "operationId": "updateOffering",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/external_id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tax_id": {
+                    "type": "string",
+                    "description": "(Optional) For type=company, the Employer ID Number is needed at some point",
+                    "example": "22-1234567"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "422": {
+            "description": "Unprocessable entity — the update could not be applied. Returned when a field that already has a value would be changed (\"Cannot change value for existing field: {field}\"), or when the request contains no updatable fields (\"No data was detected in your payload\")."
+          }
+        }
+      }
+    },
+    "/api/platform/offering/{external_id}/documents": {
+      "post": {
+        "security": [
+          {
+            "PlatformAuth": []
+          }
+        ],
+        "tags": [
+          "offering"
+        ],
+        "summary": "Upload a document",
+        "description": "You may either use type=bundle if you have a single PDF, or upload each separately",
+        "operationId": "createDocument",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/external_id"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "description": "Document type code",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "operating_agreement",
+                "purchase_agreement",
+                "company_formation",
+                "convertible_note",
+                "bundle"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "document": {
+                    "type": "string",
+                    "format": "binary",
+                    "example": "binary payload (multipart/form-data)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1234
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/platform/offering/{external_id}/documents_as_zip": {
+      "post": {
+        "security": [
+          {
+            "PlatformAuth": []
+          }
+        ],
+        "tags": [
+          "offering"
+        ],
+        "summary": "Upload a .zip archive",
+        "description": "Upload all of an offering's documents in a single .zip archive (PDF, .doc, or .docx — Word files are converted to PDF). Alto sets each file's document type by matching its filename to the keywords in the mapping below. For most integrations we recommend /documents instead, where you set each document's type explicitly.",
+        "operationId": "createDocumentViaZip",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/external_id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "zip": {
+                    "type": "string",
+                    "format": "binary",
+                    "example": "binary payload (multipart/form-data)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "file_count": {
+                      "type": "integer",
+                      "example": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/platform/offering/{external_id}/enable_for_investor/{alto_user_id}": {
+      "put": {
+        "security": [
+          {
+            "PlatformAuth": []
+          }
+        ],
+        "tags": [
+          "offering"
+        ],
+        "summary": "Allow a user to participate in an offering and restrict their investment amount. You may also change the investment amount.",
+        "operationId": "enableOffering",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/external_id"
+          },
+          {
+            "name": "alto_user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "commitment_amount": {
+                    "type": "number",
+                    "example": 1000.45
+                  },
+                  "investment_currency": {
+                    "type": "string",
+                    "enum": [
+                      "USD"
+                    ]
+                  },
+                  "external_investment_id": {
+                    "type": "string",
+                    "description": "Optional - The ID you use internally to identify this investment"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "404": {
+            "description": "Offering hasn't been created"
+          },
+          "422": {
+            "description": "If called after a user has already signed off on the investment, a failure is returned"
+          }
+        }
+      }
+    },
+    "/api/platform/offering/{external_id}/{alto_user_id}/investment": {
+      "get": {
+        "security": [
+          {
+            "PlatformAuth": []
+          }
+        ],
+        "tags": [
+          "investment"
+        ],
+        "summary": "View specific details of existing investments",
+        "description": "This endpoint allows you to retrieve details about one of your investments using the ID numbers you specified on creation (not the Alto offering ID).",
+        "operationId": "getInvestment",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/external_id"
+          },
+          {
+            "name": "alto_user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "investment_id",
+            "in": "query",
+            "required": false,
+            "description": "(Optional) Scopes the lookup to a specific investment when the investor has more than one investment in this offering.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Investment"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/platform/investment/{external_id}/{alto_user_id}/refund": {
+      "post": {
+        "security": [
+          {
+            "PlatformAuth": []
+          }
+        ],
+        "tags": [
+          "investment"
+        ],
+        "summary": "Refund the investor some/all of their capital",
+        "description": "Used AFTER Alto has already wired the money to you when the deal is closing if the deal is canceled or prorated. You are sending us the NEW investment amount. Specifying 0 as the investment amount will remove the user from the deal. Alto will expect a wire to be sent for the difference between the new and old investment amount.",
+        "operationId": "investmentRefund",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/external_id"
+          },
+          {
+            "name": "alto_user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refund_amount": {
+                    "type": "number",
+                    "example": 200
+                  },
+                  "new_commitment_amount": {
+                    "type": "number",
+                    "example": 800.35
+                  },
+                  "investment_currency": {
+                    "type": "string",
+                    "enum": [
+                      "USD"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful"
+          }
+        }
+      }
+    },
+    "/api/platform/investment/{external_id}/{alto_user_id}/cancel": {
+      "post": {
+        "security": [
+          {
+            "PlatformAuth": []
+          }
+        ],
+        "tags": [
+          "investment"
+        ],
+        "summary": "Cancel investment if funds haven't already been sent",
+        "description": "Used BEFORE Alto has wired any funds to effectively void an investment if the investor has changed their mind and doesn't wish to proceed.",
+        "operationId": "investmentCancel",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/external_id"
+          },
+          {
+            "name": "alto_user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "422": {
+            "description": "The investment could not be cancelled. Returned when funds have already been sent, so a refund is required instead (\"Cannot cancel, please issue a capital_refund.\"), or when no matching offering is found (\"Offering not found\")."
+          }
+        }
+      }
+    },
+    "/api/platform/investment/{external_id}/{alto_user_id}/distribution": {
+      "post": {
+        "security": [
+          {
+            "PlatformAuth": []
+          }
+        ],
+        "tags": [
+          "investment"
+        ],
+        "summary": "Pay out a distribution",
+        "operationId": "investmentDistribution",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/external_id"
+          },
+          {
+            "name": "alto_user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "number",
+                    "example": 200
+                  },
+                  "currency": {
+                    "type": "string",
+                    "enum": [
+                      "USD"
+                    ]
+                  },
+                  "distribution_type": {
+                    "type": "string",
+                    "enum": [
+                      "dividend"
+                    ]
+                  },
+                  "investment_id": {
+                    "type": "integer",
+                    "example": 556,
+                    "description": "(Optional, integer) Scopes the response to the bank account tied to a specific investment. Use this when an investor holds more than one IRA and you need the correct account for a particular investment — the field resolves to that investment's IRA's bank account, regardless of how many investments exist on the offering. Must be a real investment ID belonging to this offering and user. Omitting it, or sending it blank/null, falls back to legacy behavior (no bank_account in the response). When provided and resolved successfully, the response includes a bank_account object for that investment's IRA."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "distribution_transaction_id": {
+                      "type": "integer",
+                      "example": 1234
+                    },
+                    "bank_account": {
+                      "type": "object",
+                      "description": "Only present when investment_id was provided and successfully resolved to a specific investment.",
+                      "properties": {
+                        "bank": {
+                          "type": "string",
+                          "example": "Pinnacle Financial Partners 150 3rd Ave. South, Suite 900 Nashville, TN 37201"
+                        },
+                        "recipient": {
+                          "type": "string",
+                          "example": "Empire Trust, Inc 8801 Jefferson NE Bldg. C Albuquerque, NM 87113"
+                        },
+                        "routing_number": {
+                          "type": "string",
+                          "example": "123456789"
+                        },
+                        "account_number": {
+                          "type": "string",
+                          "example": "12345689123"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Investment not found for the given investment_id, offering, and user."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "No bank account is configured for this investment's IRA."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to verify bank account information due to a temporary service issue; please retry."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/platform/investment/{external_id}/{alto_user_id}/issue_new_capital_call": {
+      "post": {
+        "security": [
+          {
+            "PlatformAuth": []
+          }
+        ],
+        "tags": [
+          "investment"
+        ],
+        "summary": "Issue a new capital call",
+        "operationId": "issueNewCapitalCall",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/external_id"
+          },
+          {
+            "name": "alto_user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "number",
+                    "example": 200
+                  },
+                  "currency": {
+                    "type": "string",
+                    "enum": [
+                      "USD"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "PlatformAuth": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "Basic Auth credentials that were assigned to you by Alto"
+      },
+      "UserAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Specify the OAuth token generated by calling /oauth/token. It will be used in the \"Authorization: Bearer\" header"
+      },
+      "UserOauth": {
+        "type": "oauth2",
+        "description": "Redirect your users to /oauth/authorize to get started (see the OAuth section on this documentation)",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://altoira.sandbox.altoira.com/oauth/authorize",
+            "tokenUrl": "https://altoira.sandbox.altoira.com/oauth/token",
+            "refreshUrl": "https://altoira.sandbox.altoira.com/oauth/token/refresh",
+            "scopes": {}
+          }
+        }
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1070
+          },
+          "first_name": {
+            "type": "string",
+            "example": "John"
+          },
+          "last_name": {
+            "type": "string",
+            "example": "Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "john@example.com"
+          },
+          "accounts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "account_type": {
+                  "type": "string",
+                  "example": "Roth"
+                },
+                "alto_account_number": {
+                  "type": "integer",
+                  "example": 100
+                },
+                "investing_entity_name": {
+                  "type": "string",
+                  "example": "AltoIRA Empire Trust Custodian FBO John Smith Roth IRA"
+                },
+                "authorized_signer": {
+                  "type": "string",
+                  "example": "Eric Satz, CEO"
+                },
+                "ira_ein": {
+                  "type": "string",
+                  "example": "12-1234567"
+                },
+                "ira_address": {
+                  "type": "string",
+                  "example": "615 Main St, 129 Nashville, TN 37206"
+                },
+                "email_address": {
+                  "type": "string",
+                  "example": "signaturerequests@altoira.com"
+                },
+                "phone_number": {
+                  "type": "string",
+                  "example": "(877) 673-1557"
+                },
+                "banking_information": {
+                  "type": "object",
+                  "properties": {
+                    "bank": {
+                      "type": "string",
+                      "example": "Pinnacle Financial Partners 150 3rd Ave. South, Suite 900 Nashville, TN 37201"
+                    },
+                    "recipient": {
+                      "type": "string",
+                      "example": "Empire Trust, Inc 8801 Jefferson NE Bldg. C Albuquerque, NM 87113"
+                    },
+                    "routing_number": {
+                      "type": "string",
+                      "example": 123456789
+                    },
+                    "account_number": {
+                      "type": "string",
+                      "example": 12345689123
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Investment": {
+        "type": "object",
+        "properties": {
+          "offering_details": {
+            "type": "object",
+            "properties": {
+              "offering_name": {
+                "type": "string",
+                "example": "Alto Solutions, Inc"
+              },
+              "entity_type": {
+                "type": "string",
+                "example": "llc"
+              },
+              "security_type": {
+                "type": "string",
+                "example": "Shares"
+              }
+            }
+          },
+          "investment": {
+            "type": "object",
+            "properties": {
+              "investment_id": {
+                "type": "integer",
+                "example": 556,
+                "description": "The Alto investment ID."
+              },
+              "external_investment_id": {
+                "type": "string",
+                "nullable": true,
+                "example": "inv_12345",
+                "description": "The ID you assigned to this investment on creation, or null if none was provided."
+              },
+              "amount_invested_to_date": {
+                "type": "number",
+                "example": 8000
+              },
+              "amount_committed_to_invest": {
+                "type": "number",
+                "example": 10000
+              },
+              "date_investor_esigned": {
+                "type": "string",
+                "example": "2019-11-09T10:24:50.000000Z"
+              },
+              "investment_transactions": {
+                "type": "object",
+                "properties": {
+                  "capital_calls": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "dollar_amount": {
+                          "type": "number",
+                          "example": 8000
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "approved",
+                          "enum": [
+                            "pending",
+                            "final_review",
+                            "approved",
+                            "cancelled"
+                          ]
+                        },
+                        "date_created": {
+                          "type": "string",
+                          "example": "2020-01-23"
+                        }
+                      }
+                    }
+                  },
+                  "investments": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "dollar_amount": {
+                          "type": "number",
+                          "example": 8000
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "completed",
+                          "enum": [
+                            "pending",
+                            "cancelled",
+                            "completed",
+                            "hold"
+                          ]
+                        },
+                        "date_requested": {
+                          "type": "string",
+                          "example": "2020-01-23"
+                        },
+                        "date_funds_sent": {
+                          "type": "string",
+                          "example": "2020-01-24"
+                        },
+                        "date_completed": {
+                          "type": "string",
+                          "example": "2020-01-24"
+                        }
+                      }
+                    }
+                  },
+                  "investment_refunds": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "dollar_amount": {
+                          "type": "number",
+                          "example": 8000
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "completed",
+                          "enum": [
+                            "pending",
+                            "cancelled",
+                            "completed",
+                            "hold"
+                          ]
+                        },
+                        "date_requested": {
+                          "type": "string",
+                          "example": "2020-01-23"
+                        },
+                        "date_funds_sent": {
+                          "type": "string",
+                          "example": "2020-01-24"
+                        },
+                        "date_completed": {
+                          "type": "string",
+                          "example": "2020-01-24"
+                        }
+                      }
+                    }
+                  },
+                  "distributions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "dollar_amount": {
+                          "type": "number",
+                          "example": 8000
+                        },
+                        "distribution_type": {
+                          "type": "string",
+                          "example": "capital_gains"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "pending",
+                          "enum": [
+                            "pending",
+                            "cancelled",
+                            "completed",
+                            "hold"
+                          ]
+                        },
+                        "date_requested": {
+                          "type": "string",
+                          "example": "2020-01-23"
+                        },
+                        "date_funds_sent": {
+                          "type": "string",
+                          "example": "2020-01-24"
+                        },
+                        "date_completed": {
+                          "type": "string",
+                          "example": "2020-01-24"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "OAuthToken": {
+        "type": "object",
+        "properties": {
+          "token_type": {
+            "type": "string",
+            "enum": [
+              "Bearer"
+            ]
+          },
+          "expires_in": {
+            "type": "integer",
+            "example": 1296000
+          },
+          "access_token": {
+            "type": "string",
+            "example": "4a70821169e801da4cb94ff265288d48378823933b8"
+          },
+          "refresh_token": {
+            "type": "string",
+            "example": "9523f83b7e3ee677a763d6e5963a7cec5d430ff7ad"
+          }
+        }
+      }
+    },
+    "responses": {
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "external_id": {
+        "name": "external_id",
+        "example": "12345",
+        "in": "path",
+        "description": "The ID you use internally to identify this Offering",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "x-readme": {
+    "explorer-enabled": true,
+    "proxy-enabled": true,
+    "samples-enabled": true
+  }
+}

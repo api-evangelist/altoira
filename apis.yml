@@ -1,18 +1,95 @@
 aid: altoira
 name: AltoIRA
-description: 'AltoIRA is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'Alto (AltoIRA) is a Nashville-based self-directed IRA platform that lets
+  everyday investors hold alternative assets — private equity, venture funds, startups,
+  real estate, farmland, private credit and cryptocurrency — inside tax-advantaged
+  Traditional, Roth and SEP retirement accounts. Alto Trust Company acts as the IRA
+  custodian and Alto Securities, LLC (FINRA/SIPC) operates the Alto Marketplace of
+  curated private-market offerings. Alto reports custody of roughly $2B in assets for
+  about 30,000 self-directed IRA investors and support for more than 2,500 issuers who
+  have raised capital on the platform. For issuers and investment platforms, Alto
+  publishes a partner REST API (the "AltoIRA.com API") on a ReadMe developer hub that
+  covers OAuth investor handoff, offering creation, document upload, investor
+  invitation, investment retrieval, refunds, cancellations, distributions and capital
+  calls, plus an investment-status webhook feed.'
+image: https://cdn.prod.website-files.com/662048df2bce7baa72aab3f3/662ae161e60cc17317200006_Altologo.svg
 url: https://raw.githubusercontent.com/api-evangelist/altoira/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-06'
 modified: '2026-08-06'
 tags:
 - Company
-apis: []
+- Financial Services
+- Retirement
+- Self-Directed IRA
+- Alternative Investments
+- Private Markets
+- Fintech
+- Custody
+- Cryptocurrency
+- Wealth Management
+- Investing
+- Capital Raising
+apis:
+- name: AltoIRA.com API
+  description: 'Alto''s partner REST API for investment platforms and issuers. Covers
+    the OAuth handoff that connects an investor''s Alto IRA to a partner platform,
+    offering creation and updates, offering document upload (individually or as a zip),
+    enabling an investor for an offering, retrieving investment detail, and the
+    post-commitment money movement operations — refund, cancel, distribution and new
+    capital call. Authentication is split three ways: HTTP Basic (PlatformAuth) for
+    manager-context offering and investment operations, OAuth 2.0 authorization code
+    (UserOauth) to obtain investor consent, and the resulting bearer token (UserAuth)
+    for user-context operations. Investment lifecycle is tracked out-of-band with
+    webhooks.'
+  humanURL: https://readme.altoira.com/reference
+  baseURL: https://www.altoira.com
+  tags:
+  - self-directed-ira
+  - retirement
+  - alternative-investments
+  - private-markets
+  - offerings
+  - investments
+  - capital-calls
+  - distributions
+  - oauth2
+  - webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/altoira-partner-api-openapi.yml
+  - type: Documentation
+    url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
+  - type: APIReference
+    url: https://readme.altoira.com/reference
+  - type: GettingStarted
+    url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
+  - type: Webhooks
+    url: asyncapi/altoira-investments-webhooks.yml
+  - type: AsyncAPI
+    url: asyncapi/altoira-investments-asyncapi.yml
+  - type: Authentication
+    url: authentication/altoira-authentication.yml
+  - type: OAuthScopes
+    url: scopes/altoira-scopes.yml
+  - type: ErrorCatalog
+    url: errors/altoira-problem-types.yml
+  - type: Conventions
+    url: conventions/altoira-conventions.yml
+  - type: DataModel
+    url: data-model/altoira-data-model.yml
+  - type: Sandbox
+    url: sandbox/altoira-sandbox.yml
+  - type: Overlay
+    url: overlays/altoira-partner-api-overlay.yaml
+  - type: MCPServer
+    url: mcp/altoira-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/altoira-tool-crosswalk.yml
+  - type: AgentSkill
+    url: skills/_index.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +97,75 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://forgeglobal.com/altoira_stock/
+  url: https://www.altoira.com/
+- type: DeveloperPortal
+  url: https://readme.altoira.com/
+- type: Documentation
+  url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
+- type: APIReference
+  url: https://readme.altoira.com/reference
+- type: GettingStarted
+  url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
+- type: Support
+  url: https://www.altoira.com/help-center
+- type: Blog
+  url: https://www.altoira.com/insights
+- type: GitHubOrganization
+  url: https://github.com/AltoIRA
+- type: Pricing
+  url: https://www.altoira.com/pricing
+- type: SignUp
+  url: https://app.altoira.com/register
+- type: Login
+  url: https://app.altoira.com/login
+- type: TermsOfService
+  url: https://www.altoira.com/terms-of-service
+- type: PrivacyPolicy
+  url: https://www.altoira.com/privacy-policy
+- type: StatusPage
+  url: https://status.altoira.com/
+- type: TrustCenter
+  url: https://trust.altoira.com/
+- type: Lifecycle
+  url: lifecycle/altoira-lifecycle.yml
+- type: LLMsTxt
+  url: llms/altoira-llms.txt
+- type: WellKnown
+  url: well-known/altoira-well-known.yml
+- type: Authentication
+  url: authentication/altoira-authentication.yml
+- type: OAuthScopes
+  url: scopes/altoira-scopes.yml
+- type: Conformance
+  url: conformance/altoira-conformance.yml
+- type: DomainSecurity
+  url: security/altoira-domain-security.yml
+- type: Conventions
+  url: conventions/altoira-conventions.yml
+- type: DataModel
+  url: data-model/altoira-data-model.yml
+- type: Sandbox
+  url: sandbox/altoira-sandbox.yml
+- type: AgenticAccess
+  url: agentic-access/altoira-agentic-access.yml
+- type: OpenAPI
+  url: openapi/altoira-partner-api-openapi.yml
+- type: Overlay
+  url: overlays/altoira-partner-api-overlay.yaml
+- type: AsyncAPI
+  url: asyncapi/altoira-investments-asyncapi.yml
+- type: Webhooks
+  url: asyncapi/altoira-investments-webhooks.yml
+- type: ErrorCatalog
+  url: errors/altoira-problem-types.yml
+- type: MCPServer
+  url: mcp/altoira-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/altoira-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/_index.yml
+x-enrichment:
+  date: '2026-08-06'
+  status: enriched
+  artifacts_added: 22
+  pass: local-v1

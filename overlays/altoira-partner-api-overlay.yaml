@@ -1,0 +1,85 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the AltoIRA.com API
+  version: 1.0.0
+extends: openapi/altoira-partner-api-openapi.yml
+x-generated: '2026-08-06'
+x-method: generated
+x-source: >-
+  Derived from the harvested OpenAPI 3.0.1 plus Alto's ReadMe developer hub. This
+  overlay records API Evangelist annotations only — the harvested spec at
+  openapi/_original/altoira-partner-api-openapi-original.json is never mutated.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: altoira
+    x-apievangelist-harvested: '2026-08-06'
+    x-apievangelist-source: https://readme.altoira.com/reference
+    x-apievangelist-harvest-method: >-
+      Extracted verbatim from the ssr-props payload of the ReadMe developer hub.
+      Alto serves no /openapi.json, /swagger.json or spec download link on any
+      host.
+    description: >-
+      Alto's partner REST API for investment platforms and issuers. Connects an
+      investor's self-directed Alto IRA to a partner platform via an OAuth
+      handoff, then manages offerings, offering documents, investor enablement,
+      and the post-commitment money movement — refunds, cancellations,
+      distributions and capital calls.
+    x-agent-readiness-notes:
+      idempotency: >-
+        Not supported. investmentDistribution, investmentRefund and
+        issueNewCapitalCall move money with no idempotency key, and
+        investmentDistribution documents a retryable 503.
+      error_semantics: >-
+        No machine-readable error codes. 10 of 17 operations declare no error
+        response at all.
+      pagination: Not supported on getOfferings.
+      rate_limits: Not documented.
+- target: $.servers
+  update:
+  - url: https://altoira.sandbox.altoira.com
+    description: Test API / Sandbox
+  - url: https://www.altoira.com
+    description: Production API
+- target: $.components.securitySchemes.UserOauth
+  update:
+    x-apievangelist-warning: >-
+      All three flow URLs (authorizationUrl, tokenUrl, refreshUrl) hardcode the
+      SANDBOX host altoira.sandbox.altoira.com. A client generated from this spec
+      will authenticate against sandbox even when targeting the production
+      server. Reported as a contract defect, not corrected here.
+    x-apievangelist-scopes-declared: 0
+- target: $.paths['/api/platform/investment/{external_id}/{alto_user_id}/distribution'].post
+  update:
+    x-apievangelist-consequence: physical
+    x-apievangelist-note: >-
+      Moves cash into an investor's IRA. Retryable 503 with no idempotency key —
+      reconcile with getInvestment before any retry.
+- target: $.paths['/api/platform/investment/{external_id}/{alto_user_id}/refund'].post
+  update:
+    x-apievangelist-consequence: physical
+    x-apievangelist-note: Returns capital to the investor's IRA. No idempotency key.
+- target: $.paths['/api/platform/investment/{external_id}/{alto_user_id}/issue_new_capital_call'].post
+  update:
+    x-apievangelist-consequence: physical
+    x-apievangelist-note: >-
+      Draws capital from the investor's IRA. Declares only a 200 response — no
+      failure modes are documented.
+- target: $.paths['/api/platform/investment/{external_id}/{alto_user_id}/cancel'].post
+  update:
+    x-apievangelist-consequence: write
+    x-apievangelist-note: >-
+      Returns 422 "Cannot cancel, please issue a capital_refund." once funds have
+      already been sent. Branch to investmentRefund on that message.
+- target: $.paths['/api/user'].get
+  update:
+    x-apievangelist-note: >-
+      The ONLY source of current destination banking information for returning
+      cash to an IRA. Alto maintains distinct bank accounts per IRA and offers no
+      omnibus account, so this must be re-read before every refund or
+      distribution.
+- target: $.tags
+  update:
+  - name: handoffs
+    x-apievangelist-note: >-
+      Browser redirect targets for the investor, not callable API endpoints.

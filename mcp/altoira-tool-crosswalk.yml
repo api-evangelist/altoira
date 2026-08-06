@@ -1,0 +1,164 @@
+generated: '2026-08-06'
+method: derived
+source: mcp/altoira-mcp.yml + openapi/altoira-partner-api-openapi.yml
+status: candidate
+note: >-
+  Alto operates no MCP server and no GraphQL endpoint. This crosswalk therefore
+  binds the CANDIDATE tool set in mcp/altoira-mcp.yml to the real OpenAPI
+  operations that back it. Every binding is confidence: high because each
+  candidate tool was derived one-to-one from a verified operationId — there is
+  no gated live tools/list to reconcile against. It exists so that if Alto (or a
+  third party) ships an MCP server, the tool→operation contract and the real
+  inputSchema source are already recorded.
+surfaces:
+  openapi:
+    file: openapi/altoira-partner-api-openapi.yml
+    version: 3.0.1
+    operations: 17
+    gated: false
+    harvest_note: >-
+      Not served at any /openapi.json path; extracted from the ReadMe hub's
+      ssr-props payload at https://readme.altoira.com/reference.
+  graphql:
+    endpoint: null
+    present: false
+    note: api.altoira.com/graphql returns 404.
+  mcp:
+    url: null
+    present: false
+    note: >-
+      No hosted MCP server found on any Alto host, in the AltoIRA GitHub
+      organization, or in any public package registry.
+  webhooks:
+    file: asyncapi/altoira-investments-webhooks.yml
+    present: true
+    note: >-
+      Six investment-lifecycle events. An MCP server cannot expose these as
+      tools; they are a push surface an agent must subscribe to separately.
+crosswalk:
+- tool: get_user
+  category: user
+  rest:
+  - getUser
+  binding: rest
+  confidence: high
+  input_schema_source: none (no parameters; bearer token only)
+- tool: update_user
+  category: user
+  rest:
+  - updateUser
+  binding: rest
+  confidence: high
+  input_schema_source: requestBody application/json
+- tool: list_offerings
+  category: offering
+  rest:
+  - getOfferings
+  binding: rest
+  confidence: high
+  input_schema_source: none (no parameters)
+  note: No pagination parameters — the tool returns the whole collection.
+- tool: get_offering
+  category: offering
+  rest:
+  - getOffering
+  binding: rest
+  confidence: high
+  input_schema_source: path parameter external_id
+- tool: create_offering
+  category: offering
+  rest:
+  - createOffering
+  binding: rest
+  confidence: high
+  input_schema_source: path parameter external_id + requestBody application/json
+- tool: update_offering
+  category: offering
+  rest:
+  - updateOffering
+  binding: rest
+  confidence: high
+  input_schema_source: path parameter external_id + requestBody application/json
+- tool: upload_offering_document
+  category: offering
+  rest:
+  - createDocument
+  binding: rest
+  confidence: high
+  input_schema_source: path parameter external_id + query parameter type + multipart/form-data body
+- tool: upload_offering_documents_zip
+  category: offering
+  rest:
+  - createDocumentViaZip
+  binding: rest
+  confidence: high
+  input_schema_source: path parameter external_id + multipart/form-data body
+- tool: enable_offering_for_investor
+  category: offering
+  rest:
+  - enableOffering
+  binding: rest
+  confidence: high
+  input_schema_source: path parameters external_id + alto_user_id, requestBody application/json
+- tool: get_investment
+  category: investment
+  rest:
+  - getInvestment
+  binding: rest
+  confidence: high
+  input_schema_source: path parameters external_id + alto_user_id, query parameter investment_id
+- tool: refund_investment
+  category: investment
+  rest:
+  - investmentRefund
+  binding: rest
+  confidence: high
+  input_schema_source: path parameters external_id + alto_user_id, requestBody application/json
+- tool: cancel_investment
+  category: investment
+  rest:
+  - investmentCancel
+  binding: rest
+  confidence: high
+  input_schema_source: path parameters external_id + alto_user_id
+- tool: issue_distribution
+  category: investment
+  rest:
+  - investmentDistribution
+  binding: rest
+  confidence: high
+  input_schema_source: path parameters external_id + alto_user_id, requestBody application/json
+- tool: issue_capital_call
+  category: investment
+  rest:
+  - issueNewCapitalCall
+  binding: rest
+  confidence: high
+  input_schema_source: path parameters external_id + alto_user_id, requestBody application/json
+mcp_only: []
+rest_only:
+- operation: GET /oauth/authorize
+  capability: investor consent handoff
+  reason: >-
+    Browser redirect the investor must complete interactively. Cannot be
+    represented as an agent tool — an agent can construct the URL but must hand
+    control to the human.
+- operation: GET /offering/platform/{platform_code}/{external_id}
+  capability: Direction of Investment handoff
+  reason: >-
+    Browser redirect that sends the investor to Alto to e-sign the DOI. Human
+    action is legally required.
+- operation: POST /oauth/token
+  capability: credential exchange
+  reason: Server-side auth plumbing, not a tool.
+coverage:
+  tools_named: 14
+  tools_bound: 14
+  mcp_only: 0
+  rest_operations_total: 17
+  rest_operations_with_a_tool: 14
+  rest_operations_without_a_tool: 3
+  note: >-
+    All three unbound operations are deliberate: two are interactive browser
+    handoffs and one is credential exchange. The callable surface is fully
+    covered.

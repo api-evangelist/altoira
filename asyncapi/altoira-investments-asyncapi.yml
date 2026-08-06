@@ -1,0 +1,165 @@
+# Derived by API Evangelist from Alto's published webhook documentation.
+# Alto does NOT publish an AsyncAPI document. Every channel, event name, payload
+# field and description below is taken verbatim from
+# https://readme.altoira.com/docs/investment-status-and-webhooks
+# The delivery URL is registered with Alto out of band (per-partner) and is not
+# published, so the server is described generically rather than invented.
+asyncapi: 3.0.0
+info:
+  title: Alto Investment Status Webhooks
+  version: '1.0.0'
+  description: >-
+    Alto pushes investment-lifecycle events to a Platform Partner's registered
+    webhook endpoint so the partner can track an investor's progress through the
+    Direction of Investment (DOI), funding and any post-commitment changes. Alto
+    describes investment_signed, investment_paid and investment_cancelled as "the
+    three most valuable webhooks provided". Investment status can also be pulled
+    on demand with the getInvestment operation in the REST API.
+  contact:
+    name: AltoIRA
+    email: help@altoira.com
+    url: https://www.altoira.com
+  externalDocs:
+    description: Investment Status and Webhooks
+    url: https://readme.altoira.com/docs/investment-status-and-webhooks
+defaultContentType: application/json
+servers:
+  partnerEndpoint:
+    host: partner-supplied.example
+    protocol: https
+    description: >-
+      The HTTPS endpoint the Platform Partner registers with Alto to receive
+      investment events. Alto does not publish a single shared delivery host; the
+      endpoint is configured per partner during onboarding.
+channels:
+  investmentEvents:
+    address: /
+    title: Investment lifecycle events
+    description: >-
+      A single webhook channel carrying every investment status event. The event
+      is discriminated by the event_name field in the payload.
+    messages:
+      investmentSigned:
+        $ref: '#/components/messages/investmentSigned'
+      investmentPaid:
+        $ref: '#/components/messages/investmentPaid'
+      investmentCancelled:
+        $ref: '#/components/messages/investmentCancelled'
+      commitmentAmountChanged:
+        $ref: '#/components/messages/commitmentAmountChanged'
+      newContributionApproved:
+        $ref: '#/components/messages/newContributionApproved'
+      investmentIncreaseRejected:
+        $ref: '#/components/messages/investmentIncreaseRejected'
+operations:
+  receiveInvestmentEvent:
+    action: receive
+    channel:
+      $ref: '#/channels/investmentEvents'
+    summary: Receive an investment status event from Alto
+    messages:
+    - $ref: '#/channels/investmentEvents/messages/investmentSigned'
+    - $ref: '#/channels/investmentEvents/messages/investmentPaid'
+    - $ref: '#/channels/investmentEvents/messages/investmentCancelled'
+    - $ref: '#/channels/investmentEvents/messages/commitmentAmountChanged'
+    - $ref: '#/channels/investmentEvents/messages/newContributionApproved'
+    - $ref: '#/channels/investmentEvents/messages/investmentIncreaseRejected'
+components:
+  schemas:
+    investmentEvent:
+      type: object
+      description: >-
+        The event envelope Alto publishes in its documentation example. Field
+        names are taken verbatim from the published sample payload.
+      properties:
+        event_name:
+          type: string
+          description: The name of the investment event being delivered.
+        offering_id:
+          type: string
+          description: >-
+            The external_id of the offering, i.e. the ID the Platform Partner
+            uses internally to identify this offering.
+        alto_investment_id:
+          type: integer
+          description: Alto's own identifier for the investment.
+          examples:
+          - 657
+        external_investment_id:
+          type: string
+          description: The Platform Partner's own identifier for the investment.
+        nonce:
+          type: integer
+          description: >-
+            A per-delivery nonce included in the payload. Alto's documentation
+            shows the field but does not publish a signature-verification scheme
+            for it.
+          examples:
+          - 7074343911774
+      required:
+      - event_name
+      - offering_id
+      - alto_investment_id
+  messages:
+    investmentSigned:
+      name: investment_signed
+      title: Investment signed
+      summary: Investor signs DOI for initial commitment amount
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/investmentEvent'
+      examples:
+      - name: investmentSigned
+        payload:
+          event_name: investment_signed
+          offering_id: '[external_id]'
+          alto_investment_id: 657
+          external_investment_id: '[external_investment_id]'
+          nonce: 7074343911774
+    investmentPaid:
+      name: investment_paid
+      title: Investment paid
+      summary: Alto sends payment for the investor's commitment
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/investmentEvent'
+    investmentCancelled:
+      name: investment_cancelled
+      title: Investment cancelled
+      summary: >-
+        The investor has alerted Alto that they have chosen to not take part in
+        this investment. Note the two l's in "cancelled".
+      description: >-
+        Not triggered if the investor has not completed their Direction of
+        Investment.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/investmentEvent'
+    commitmentAmountChanged:
+      name: commitment_amount_changed
+      title: Commitment amount changed
+      summary: >-
+        The investor has alerted Alto that they would like to make a change to
+        their commitment amount.
+      description: >-
+        Alto describes this as extremely rare and recommends investors make
+        commitment changes on the Platform Partner's site first.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/investmentEvent'
+    newContributionApproved:
+      name: new_contribution_approved
+      title: New contribution approved
+      summary: The investor has signed the DOI for an investment increase
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/investmentEvent'
+    investmentIncreaseRejected:
+      name: investment_increase_rejected
+      title: Investment increase rejected
+      summary: >-
+        The investor has informed Alto that they do not intend to complete the
+        DOI for an investment increase.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/investmentEvent'
