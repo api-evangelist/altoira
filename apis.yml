@@ -33,33 +33,18 @@ tags:
 - Investing
 - Capital Raising
 apis:
-- name: AltoIRA.com API
-  description: 'Alto''s partner REST API for investment platforms and issuers. Covers
-    the OAuth handoff that connects an investor''s Alto IRA to a partner platform,
-    offering creation and updates, offering document upload (individually or as a zip),
-    enabling an investor for an offering, retrieving investment detail, and the
-    post-commitment money movement operations — refund, cancel, distribution and new
-    capital call. Authentication is split three ways: HTTP Basic (PlatformAuth) for
-    manager-context offering and investment operations, OAuth 2.0 authorization code
-    (UserOauth) to obtain investor consent, and the resulting bearer token (UserAuth)
-    for user-context operations. Investment lifecycle is tracked out-of-band with
-    webhooks.'
+- aid: altoira:altoira-handoffs-api
+  name: AltoIRA Handoffs API
+  description: >-
+    These are the endpoints you will redirect your investors to (these are NOT api endpoints so you cannot
+    use the Try it out tool)
   humanURL: https://readme.altoira.com/reference
   baseURL: https://www.altoira.com
   tags:
-  - self-directed-ira
-  - retirement
-  - alternative-investments
-  - private-markets
-  - offerings
-  - investments
-  - capital-calls
-  - distributions
-  - oauth2
-  - webhooks
+  - handoffs
   properties:
   - type: OpenAPI
-    url: openapi/altoira-partner-api-openapi.yml
+    url: openapi/altoira-handoffs-api-openapi.yml
   - type: Documentation
     url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
   - type: APIReference
@@ -82,14 +67,151 @@ apis:
     url: data-model/altoira-data-model.yml
   - type: Sandbox
     url: sandbox/altoira-sandbox.yml
-  - type: Overlay
-    url: overlays/altoira-partner-api-overlay.yaml
-  - type: MCPServer
-    url: mcp/altoira-mcp.yml
   - type: ToolCrosswalk
     url: mcp/altoira-tool-crosswalk.yml
-  - type: AgentSkill
-    url: skills/_index.yml
+- aid: altoira:altoira-investment-api
+  name: AltoIRA Investment API
+  description: >-
+    The actions are performed as the manager of an offering, not as a specific user. Authentication uses
+    the `Basic Auth` header (same as the Offering endpoints)
+  humanURL: https://readme.altoira.com/reference
+  baseURL: https://www.altoira.com
+  tags:
+  - investment
+  properties:
+  - type: OpenAPI
+    url: openapi/altoira-investment-api-openapi.yml
+  - type: Documentation
+    url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
+  - type: APIReference
+    url: https://readme.altoira.com/reference
+  - type: GettingStarted
+    url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
+  - type: Webhooks
+    url: asyncapi/altoira-investments-webhooks.yml
+  - type: AsyncAPI
+    url: asyncapi/altoira-investments-asyncapi.yml
+  - type: Authentication
+    url: authentication/altoira-authentication.yml
+  - type: OAuthScopes
+    url: scopes/altoira-scopes.yml
+  - type: ErrorCatalog
+    url: errors/altoira-problem-types.yml
+  - type: Conventions
+    url: conventions/altoira-conventions.yml
+  - type: DataModel
+    url: data-model/altoira-data-model.yml
+  - type: Sandbox
+    url: sandbox/altoira-sandbox.yml
+  - type: ToolCrosswalk
+    url: mcp/altoira-tool-crosswalk.yml
+- aid: altoira:altoira-oauth-api
+  name: AltoIRA OAUTH API
+  description: >-
+    Provides access to an investor's account. Generates a token to be used with the "user" endpoints below
+  humanURL: https://readme.altoira.com/reference
+  baseURL: https://www.altoira.com
+  tags:
+  - oauth
+  properties:
+  - type: OpenAPI
+    url: openapi/altoira-oauth-api-openapi.yml
+  - type: Documentation
+    url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
+  - type: APIReference
+    url: https://readme.altoira.com/reference
+  - type: GettingStarted
+    url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
+  - type: Webhooks
+    url: asyncapi/altoira-investments-webhooks.yml
+  - type: AsyncAPI
+    url: asyncapi/altoira-investments-asyncapi.yml
+  - type: Authentication
+    url: authentication/altoira-authentication.yml
+  - type: OAuthScopes
+    url: scopes/altoira-scopes.yml
+  - type: ErrorCatalog
+    url: errors/altoira-problem-types.yml
+  - type: Conventions
+    url: conventions/altoira-conventions.yml
+  - type: DataModel
+    url: data-model/altoira-data-model.yml
+  - type: Sandbox
+    url: sandbox/altoira-sandbox.yml
+  - type: ToolCrosswalk
+    url: mcp/altoira-tool-crosswalk.yml
+- aid: altoira:altoira-offering-api
+  name: AltoIRA Offering API
+  description: >-
+    The actions are performed as the manager of an offering, not as a specific user. Authentication uses
+    the `Basic Auth` header
+  humanURL: https://readme.altoira.com/reference
+  baseURL: https://www.altoira.com
+  tags:
+  - offering
+  properties:
+  - type: OpenAPI
+    url: openapi/altoira-offering-api-openapi.yml
+  - type: Documentation
+    url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
+  - type: APIReference
+    url: https://readme.altoira.com/reference
+  - type: GettingStarted
+    url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
+  - type: Webhooks
+    url: asyncapi/altoira-investments-webhooks.yml
+  - type: AsyncAPI
+    url: asyncapi/altoira-investments-asyncapi.yml
+  - type: Authentication
+    url: authentication/altoira-authentication.yml
+  - type: OAuthScopes
+    url: scopes/altoira-scopes.yml
+  - type: ErrorCatalog
+    url: errors/altoira-problem-types.yml
+  - type: Conventions
+    url: conventions/altoira-conventions.yml
+  - type: DataModel
+    url: data-model/altoira-data-model.yml
+  - type: Sandbox
+    url: sandbox/altoira-sandbox.yml
+  - type: ToolCrosswalk
+    url: mcp/altoira-tool-crosswalk.yml
+- aid: altoira:altoira-user-api
+  name: AltoIRA User API
+  description: >-
+    These actions are performed within the context of a specific user (uses OAuth2 with an `Authorization:
+    Bearer` header)
+  humanURL: https://readme.altoira.com/reference
+  baseURL: https://www.altoira.com
+  tags:
+  - user
+  properties:
+  - type: OpenAPI
+    url: openapi/altoira-user-api-openapi.yml
+  - type: Documentation
+    url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
+  - type: APIReference
+    url: https://readme.altoira.com/reference
+  - type: GettingStarted
+    url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
+  - type: Webhooks
+    url: asyncapi/altoira-investments-webhooks.yml
+  - type: AsyncAPI
+    url: asyncapi/altoira-investments-asyncapi.yml
+  - type: Authentication
+    url: authentication/altoira-authentication.yml
+  - type: OAuthScopes
+    url: scopes/altoira-scopes.yml
+  - type: ErrorCatalog
+    url: errors/altoira-problem-types.yml
+  - type: Conventions
+    url: conventions/altoira-conventions.yml
+  - type: DataModel
+    url: data-model/altoira-data-model.yml
+  - type: Sandbox
+    url: sandbox/altoira-sandbox.yml
+  - type: ToolCrosswalk
+    url: mcp/altoira-tool-crosswalk.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -149,7 +271,7 @@ common:
 - type: AgenticAccess
   url: agentic-access/altoira-agentic-access.yml
 - type: OpenAPI
-  url: openapi/altoira-partner-api-openapi.yml
+  url: openapi/_original/altoira-partner-api-openapi.yml
 - type: Overlay
   url: overlays/altoira-partner-api-overlay.yaml
 - type: AsyncAPI
