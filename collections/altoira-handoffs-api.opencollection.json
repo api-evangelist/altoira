@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AltoIRA.com Handoffs API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "handoffs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Allows investor to approve access to his/her account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://altoira.sandbox.altoira.com/oauth/authorize",
+            "params": [
+              {
+                "name": "client_id",
+                "value": "",
+                "type": "query",
+                "description": "Alto Provided Code"
+              },
+              {
+                "name": "response_type",
+                "value": "",
+                "type": "query",
+                "description": "Use \"code\""
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "query",
+                "description": "Not used. Leave this blank — Alto does not scope access; a token grants full access to the investor's account."
+              },
+              {
+                "name": "redirect_uri",
+                "value": "",
+                "type": "query",
+                "description": "Must match what we have on file"
+              }
+            ]
+          },
+          "docs": "Once access is approved by the investor, we will generate an auth \"code\" and send it back to your `redirect_uri` in a query string parameter named \"code\"."
+        },
+        {
+          "info": {
+            "name": "Allows the user to complete the funding process",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://altoira.sandbox.altoira.com/offering/platform/:platform_code/:external_id",
+            "params": [
+              {
+                "name": "platform_code",
+                "value": "",
+                "type": "path",
+                "description": "The code assigned to your account (ie: angellist)"
+              },
+              {
+                "name": "external_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID you use internally to identify this Offering"
+              }
+            ]
+          },
+          "docs": "Ensure that you have first enabled access to the Offering for this investor (see /api/platform/offering/{external_id}/enable_for_investor)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

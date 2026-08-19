@@ -1,0 +1,409 @@
+openapi: 3.2.0
+info:
+  version: 1.0.0
+  title: AltoIRA.com Investment API
+  contact:
+    name: AltoIRA
+    email: help@altoira.com
+    url: https://www.altoira.com
+  description: The actions are performed as the manager of an offering, not as a specific user. Authentication uses the `Basic Auth` header (same as the Offering endpoints)
+servers:
+- url: https://altoira.sandbox.altoira.com
+  description: Test API / Sandbox
+- url: https://www.altoira.com
+  description: Production API
+tags:
+- name: investment
+  description: The actions are performed as the manager of an offering, not as a specific user. Authentication uses the `Basic Auth` header (same as the Offering endpoints)
+paths:
+  /api/platform/offering/{external_id}/{alto_user_id}/investment:
+    get:
+      security:
+      - PlatformAuth: []
+      tags:
+      - investment
+      summary: View specific details of existing investments
+      description: This endpoint allows you to retrieve details about one of your investments using the ID numbers you specified on creation (not the Alto offering ID).
+      operationId: getInvestment
+      parameters:
+      - $ref: '#/components/parameters/external_id'
+      - name: alto_user_id
+        in: path
+        required: true
+        schema:
+          type: number
+      - name: investment_id
+        in: query
+        required: false
+        description: (Optional) Scopes the lookup to a specific investment when the investor has more than one investment in this offering.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Investment'
+  /api/platform/investment/{external_id}/{alto_user_id}/refund:
+    post:
+      security:
+      - PlatformAuth: []
+      tags:
+      - investment
+      summary: Refund the investor some/all of their capital
+      description: Used AFTER Alto has already wired the money to you when the deal is closing if the deal is canceled or prorated. You are sending us the NEW investment amount. Specifying 0 as the investment amount will remove the user from the deal. Alto will expect a wire to be sent for the difference between the new and old investment amount.
+      operationId: investmentRefund
+      parameters:
+      - $ref: '#/components/parameters/external_id'
+      - name: alto_user_id
+        in: path
+        required: true
+        schema:
+          type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refund_amount:
+                  type: number
+                  example: 200
+                new_commitment_amount:
+                  type: number
+                  example: 800.35
+                investment_currency:
+                  type: string
+                  enum:
+                  - USD
+      responses:
+        '200':
+          description: Successful
+  /api/platform/investment/{external_id}/{alto_user_id}/cancel:
+    post:
+      security:
+      - PlatformAuth: []
+      tags:
+      - investment
+      summary: Cancel investment if funds haven't already been sent
+      description: Used BEFORE Alto has wired any funds to effectively void an investment if the investor has changed their mind and doesn't wish to proceed.
+      operationId: investmentCancel
+      parameters:
+      - $ref: '#/components/parameters/external_id'
+      - name: alto_user_id
+        in: path
+        required: true
+        schema:
+          type: number
+      responses:
+        '200':
+          description: Successful
+        '422':
+          description: The investment could not be cancelled. Returned when funds have already been sent, so a refund is required instead ("Cannot cancel, please issue a capital_refund."), or when no matching offering is found ("Offering not found").
+  /api/platform/investment/{external_id}/{alto_user_id}/distribution:
+    post:
+      security:
+      - PlatformAuth: []
+      tags:
+      - investment
+      summary: Pay out a distribution
+      operationId: investmentDistribution
+      parameters:
+      - $ref: '#/components/parameters/external_id'
+      - name: alto_user_id
+        in: path
+        required: true
+        schema:
+          type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+                  example: 200
+                currency:
+                  type: string
+                  enum:
+                  - USD
+                distribution_type:
+                  type: string
+                  enum:
+                  - dividend
+                investment_id:
+                  type: integer
+                  example: 556
+                  description: (Optional, integer) Scopes the response to the bank account tied to a specific investment. Use this when an investor holds more than one IRA and you need the correct account for a particular investment — the field resolves to that investment's IRA's bank account, regardless of how many investments exist on the offering. Must be a real investment ID belonging to this offering and user. Omitting it, or sending it blank/null, falls back to legacy behavior (no bank_account in the response). When provided and resolved successfully, the response includes a bank_account object for that investment's IRA.
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  distribution_transaction_id:
+                    type: integer
+                    example: 1234
+                  bank_account:
+                    type: object
+                    description: Only present when investment_id was provided and successfully resolved to a specific investment.
+                    properties:
+                      bank:
+                        type: string
+                        example: Pinnacle Financial Partners 150 3rd Ave. South, Suite 900 Nashville, TN 37201
+                      recipient:
+                        type: string
+                        example: Empire Trust, Inc 8801 Jefferson NE Bldg. C Albuquerque, NM 87113
+                      routing_number:
+                        type: string
+                        example: '123456789'
+                      account_number:
+                        type: string
+                        example: '12345689123'
+        '404':
+          description: Failure
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Investment not found for the given investment_id, offering, and user.
+        '422':
+          description: Failure
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: No bank account is configured for this investment's IRA.
+        '503':
+          description: Failure
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Unable to verify bank account information due to a temporary service issue; please retry.
+  /api/platform/investment/{external_id}/{alto_user_id}/issue_new_capital_call:
+    post:
+      security:
+      - PlatformAuth: []
+      tags:
+      - investment
+      summary: Issue a new capital call
+      operationId: issueNewCapitalCall
+      parameters:
+      - $ref: '#/components/parameters/external_id'
+      - name: alto_user_id
+        in: path
+        required: true
+        schema:
+          type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+                  example: 200
+                currency:
+                  type: string
+                  enum:
+                  - USD
+      responses:
+        '200':
+          description: Successful
+components:
+  schemas:
+    Investment:
+      type: object
+      properties:
+        offering_details:
+          type: object
+          properties:
+            offering_name:
+              type: string
+              example: Alto Solutions, Inc
+            entity_type:
+              type: string
+              example: llc
+            security_type:
+              type: string
+              example: Shares
+        investment:
+          type: object
+          properties:
+            investment_id:
+              type: integer
+              example: 556
+              description: The Alto investment ID.
+            external_investment_id:
+              type:
+              - string
+              - 'null'
+              example: inv_12345
+              description: The ID you assigned to this investment on creation, or null if none was provided.
+            amount_invested_to_date:
+              type: number
+              example: 8000
+            amount_committed_to_invest:
+              type: number
+              example: 10000
+            date_investor_esigned:
+              type: string
+              example: '2019-11-09T10:24:50.000000Z'
+            investment_transactions:
+              type: object
+              properties:
+                capital_calls:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      dollar_amount:
+                        type: number
+                        example: 8000
+                      status:
+                        type: string
+                        example: approved
+                        enum:
+                        - pending
+                        - final_review
+                        - approved
+                        - cancelled
+                      date_created:
+                        type: string
+                        example: '2020-01-23'
+                investments:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      dollar_amount:
+                        type: number
+                        example: 8000
+                      status:
+                        type: string
+                        example: completed
+                        enum:
+                        - pending
+                        - cancelled
+                        - completed
+                        - hold
+                      date_requested:
+                        type: string
+                        example: '2020-01-23'
+                      date_funds_sent:
+                        type: string
+                        example: '2020-01-24'
+                      date_completed:
+                        type: string
+                        example: '2020-01-24'
+                investment_refunds:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      dollar_amount:
+                        type: number
+                        example: 8000
+                      status:
+                        type: string
+                        example: completed
+                        enum:
+                        - pending
+                        - cancelled
+                        - completed
+                        - hold
+                      date_requested:
+                        type: string
+                        example: '2020-01-23'
+                      date_funds_sent:
+                        type: string
+                        example: '2020-01-24'
+                      date_completed:
+                        type: string
+                        example: '2020-01-24'
+                distributions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      dollar_amount:
+                        type: number
+                        example: 8000
+                      distribution_type:
+                        type: string
+                        example: capital_gains
+                      status:
+                        type: string
+                        example: pending
+                        enum:
+                        - pending
+                        - cancelled
+                        - completed
+                        - hold
+                      date_requested:
+                        type: string
+                        example: '2020-01-23'
+                      date_funds_sent:
+                        type: string
+                        example: '2020-01-24'
+                      date_completed:
+                        type: string
+                        example: '2020-01-24'
+  parameters:
+    external_id:
+      name: external_id
+      example: '12345'
+      in: path
+      description: The ID you use internally to identify this Offering
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    PlatformAuth:
+      type: http
+      scheme: basic
+      description: Basic Auth credentials that were assigned to you by Alto
+    UserAuth:
+      type: http
+      scheme: bearer
+      description: 'Specify the OAuth token generated by calling /oauth/token. It will be used in the "Authorization: Bearer" header'
+    UserOauth:
+      type: oauth2
+      description: Redirect your users to /oauth/authorize to get started (see the OAuth section on this documentation)
+      flows:
+        authorizationCode:
+          authorizationUrl: https://altoira.sandbox.altoira.com/oauth/authorize
+          tokenUrl: https://altoira.sandbox.altoira.com/oauth/token
+          refreshUrl: https://altoira.sandbox.altoira.com/oauth/token/refresh
+          scopes: {}
+externalDocs:
+  description: Webhooks
+  url: https://altoira.sandbox.altoira.com/documents/webhooks.txt
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true
+  samples-enabled: true

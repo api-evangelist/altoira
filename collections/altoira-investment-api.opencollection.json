@@ -1,0 +1,181 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AltoIRA.com Investment API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "investment",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "View specific details of existing investments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://altoira.sandbox.altoira.com/api/platform/offering/:external_id/:alto_user_id/investment",
+            "params": [
+              {
+                "name": "external_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID you use internally to identify this Offering"
+              },
+              {
+                "name": "alto_user_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "investment_id",
+                "value": "",
+                "type": "query",
+                "description": "(Optional) Scopes the lookup to a specific investment when the investor has more than one investment in this offering."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "This endpoint allows you to retrieve details about one of your investments using the ID numbers you specified on creation (not the Alto offering ID)."
+        },
+        {
+          "info": {
+            "name": "Refund the investor some/all of their capital",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://altoira.sandbox.altoira.com/api/platform/investment/:external_id/:alto_user_id/refund",
+            "params": [
+              {
+                "name": "external_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID you use internally to identify this Offering"
+              },
+              {
+                "name": "alto_user_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Used AFTER Alto has already wired the money to you when the deal is closing if the deal is canceled or prorated. You are sending us the NEW investment amount. Specifying 0 as the investment amount will remove the user from the deal. Alto will expect a wire to be sent for the difference between the new and old investment amount."
+        },
+        {
+          "info": {
+            "name": "Cancel investment if funds haven't already been sent",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://altoira.sandbox.altoira.com/api/platform/investment/:external_id/:alto_user_id/cancel",
+            "params": [
+              {
+                "name": "external_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID you use internally to identify this Offering"
+              },
+              {
+                "name": "alto_user_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Used BEFORE Alto has wired any funds to effectively void an investment if the investor has changed their mind and doesn't wish to proceed."
+        },
+        {
+          "info": {
+            "name": "Pay out a distribution",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://altoira.sandbox.altoira.com/api/platform/investment/:external_id/:alto_user_id/distribution",
+            "params": [
+              {
+                "name": "external_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID you use internally to identify this Offering"
+              },
+              {
+                "name": "alto_user_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Pay out a distribution"
+        },
+        {
+          "info": {
+            "name": "Issue a new capital call",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://altoira.sandbox.altoira.com/api/platform/investment/:external_id/:alto_user_id/issue_new_capital_call",
+            "params": [
+              {
+                "name": "external_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID you use internally to identify this Offering"
+              },
+              {
+                "name": "alto_user_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Issue a new capital call"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

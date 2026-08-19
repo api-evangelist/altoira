@@ -1,0 +1,997 @@
+{
+  "item": [
+    {
+      "id": "eba230f4-df00-4b98-b473-84ef527437e0",
+      "name": "investment",
+      "description": {
+        "content": "The actions are performed as the manager of an offering, not as a specific user. Authentication uses the `Basic Auth` header (same as the Offering endpoints)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "982c9872-79a6-40ab-ae6c-dbd7b02d0d3c",
+          "name": "View specific details of existing investments",
+          "request": {
+            "name": "View specific details of existing investments",
+            "description": {
+              "content": "This endpoint allows you to retrieve details about one of your investments using the ID numbers you specified on creation (not the Alto offering ID).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "platform",
+                "offering",
+                ":external_id",
+                ":alto_user_id",
+                "investment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "investment_id",
+                  "value": "<integer>",
+                  "description": "(Optional) Scopes the lookup to a specific investment when the investor has more than one investment in this offering."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "external_id",
+                  "description": "(Required) The ID you use internally to identify this Offering"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "alto_user_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "2f9d1f59-ec1b-4b81-8429-696ebd42f29b",
+              "name": "Successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "offering",
+                    ":external_id",
+                    ":alto_user_id",
+                    "investment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "investment_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "alto_user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"offering_details\": {\n    \"offering_name\": \"Alto Solutions, Inc\",\n    \"entity_type\": \"llc\",\n    \"security_type\": \"Shares\"\n  },\n  \"investment\": {\n    \"investment_id\": 556,\n    \"external_investment_id\": \"inv_12345\",\n    \"amount_invested_to_date\": 8000,\n    \"amount_committed_to_invest\": 10000,\n    \"date_investor_esigned\": \"2019-11-09T10:24:50.000000Z\",\n    \"investment_transactions\": {\n      \"capital_calls\": [\n        {\n          \"dollar_amount\": 8000,\n          \"status\": \"approved\",\n          \"date_created\": \"2020-01-23\"\n        },\n        {\n          \"dollar_amount\": 8000,\n          \"status\": \"approved\",\n          \"date_created\": \"2020-01-23\"\n        }\n      ],\n      \"investments\": [\n        {\n          \"dollar_amount\": 8000,\n          \"status\": \"completed\",\n          \"date_requested\": \"2020-01-23\",\n          \"date_funds_sent\": \"2020-01-24\",\n          \"date_completed\": \"2020-01-24\"\n        },\n        {\n          \"dollar_amount\": 8000,\n          \"status\": \"completed\",\n          \"date_requested\": \"2020-01-23\",\n          \"date_funds_sent\": \"2020-01-24\",\n          \"date_completed\": \"2020-01-24\"\n        }\n      ],\n      \"investment_refunds\": [\n        {\n          \"dollar_amount\": 8000,\n          \"status\": \"completed\",\n          \"date_requested\": \"2020-01-23\",\n          \"date_funds_sent\": \"2020-01-24\",\n          \"date_completed\": \"2020-01-24\"\n        },\n        {\n          \"dollar_amount\": 8000,\n          \"status\": \"completed\",\n          \"date_requested\": \"2020-01-23\",\n          \"date_funds_sent\": \"2020-01-24\",\n          \"date_completed\": \"2020-01-24\"\n        }\n      ],\n      \"distributions\": [\n        {\n          \"dollar_amount\": 8000,\n          \"distribution_type\": \"capital_gains\",\n          \"status\": \"pending\",\n          \"date_requested\": \"2020-01-23\",\n          \"date_funds_sent\": \"2020-01-24\",\n          \"date_completed\": \"2020-01-24\"\n        },\n        {\n          \"dollar_amount\": 8000,\n          \"distribution_type\": \"capital_gains\",\n          \"status\": \"pending\",\n          \"date_requested\": \"2020-01-23\",\n          \"date_funds_sent\": \"2020-01-24\",\n          \"date_completed\": \"2020-01-24\"\n        }\n      ]\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8b2ef7a8-1350-41bb-a098-849834c7268b",
+          "name": "Refund the investor some/all of their capital",
+          "request": {
+            "name": "Refund the investor some/all of their capital",
+            "description": {
+              "content": "Used AFTER Alto has already wired the money to you when the deal is closing if the deal is canceled or prorated. You are sending us the NEW investment amount. Specifying 0 as the investment amount will remove the user from the deal. Alto will expect a wire to be sent for the difference between the new and old investment amount.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "platform",
+                "investment",
+                ":external_id",
+                ":alto_user_id",
+                "refund"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "external_id",
+                  "description": "(Required) The ID you use internally to identify this Offering"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "alto_user_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refund_amount\": \"<number>\",\n  \"new_commitment_amount\": \"<number>\",\n  \"investment_currency\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "70ccb5fd-ffd9-4fc5-916e-a5e64a74ff87",
+              "name": "Successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "investment",
+                    ":external_id",
+                    ":alto_user_id",
+                    "refund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "alto_user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refund_amount\": 200,\n  \"new_commitment_amount\": 800.35,\n  \"investment_currency\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "10fedb45-bcb3-4f89-8ba7-933c1213f8bd",
+          "name": "Cancel investment if funds haven't already been sent",
+          "request": {
+            "name": "Cancel investment if funds haven't already been sent",
+            "description": {
+              "content": "Used BEFORE Alto has wired any funds to effectively void an investment if the investor has changed their mind and doesn't wish to proceed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "platform",
+                "investment",
+                ":external_id",
+                ":alto_user_id",
+                "cancel"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "external_id",
+                  "description": "(Required) The ID you use internally to identify this Offering"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "alto_user_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "bb879402-7c46-4151-854e-0b0f806b89dd",
+              "name": "Successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "investment",
+                    ":external_id",
+                    ":alto_user_id",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "alto_user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "24f0b979-5191-460f-a4ff-d430a34dda44",
+              "name": "The investment could not be cancelled. Returned when funds have already been sent, so a refund is required instead (\"Cannot cancel, please issue a capital_refund.\"), or when no matching offering is found (\"Offering not found\").",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "investment",
+                    ":external_id",
+                    ":alto_user_id",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "alto_user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b31fb0e3-44b0-4cf6-9a67-96234b2b48f5",
+          "name": "Pay out a distribution",
+          "request": {
+            "name": "Pay out a distribution",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "platform",
+                "investment",
+                ":external_id",
+                ":alto_user_id",
+                "distribution"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "external_id",
+                  "description": "(Required) The ID you use internally to identify this Offering"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "alto_user_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": \"<number>\",\n  \"currency\": \"<string>\",\n  \"distribution_type\": \"<string>\",\n  \"investment_id\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f0083942-92bf-4557-b91d-819d1ee15953",
+              "name": "Successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "investment",
+                    ":external_id",
+                    ":alto_user_id",
+                    "distribution"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "alto_user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": 200,\n  \"currency\": \"<string>\",\n  \"distribution_type\": \"<string>\",\n  \"investment_id\": 556\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"distribution_transaction_id\": 1234,\n  \"bank_account\": {\n    \"bank\": \"Pinnacle Financial Partners 150 3rd Ave. South, Suite 900 Nashville, TN 37201\",\n    \"recipient\": \"Empire Trust, Inc 8801 Jefferson NE Bldg. C Albuquerque, NM 87113\",\n    \"routing_number\": \"123456789\",\n    \"account_number\": \"12345689123\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "534d6b25-64e0-4433-b638-17b65b0d5c8a",
+              "name": "Failure",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "investment",
+                    ":external_id",
+                    ":alto_user_id",
+                    "distribution"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "alto_user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": 200,\n  \"currency\": \"<string>\",\n  \"distribution_type\": \"<string>\",\n  \"investment_id\": 556\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"message\": \"Investment not found for the given investment_id, offering, and user.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d5c0c879-353e-4421-8aed-806d1f1f4201",
+              "name": "Failure",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "investment",
+                    ":external_id",
+                    ":alto_user_id",
+                    "distribution"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "alto_user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": 200,\n  \"currency\": \"<string>\",\n  \"distribution_type\": \"<string>\",\n  \"investment_id\": 556\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"message\": \"No bank account is configured for this investment's IRA.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e4803cad-fde2-416c-a1a3-8687e87fe76f",
+              "name": "Failure",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "investment",
+                    ":external_id",
+                    ":alto_user_id",
+                    "distribution"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "alto_user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": 200,\n  \"currency\": \"<string>\",\n  \"distribution_type\": \"<string>\",\n  \"investment_id\": 556\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"message\": \"Unable to verify bank account information due to a temporary service issue; please retry.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ac878373-d4c6-48a0-8e96-bccd738c45b7",
+          "name": "Issue a new capital call",
+          "request": {
+            "name": "Issue a new capital call",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "platform",
+                "investment",
+                ":external_id",
+                ":alto_user_id",
+                "issue_new_capital_call"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "external_id",
+                  "description": "(Required) The ID you use internally to identify this Offering"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "alto_user_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": \"<number>\",\n  \"currency\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1ca3ac05-9d21-4819-a476-fd0a53f3bde9",
+              "name": "Successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "investment",
+                    ":external_id",
+                    ":alto_user_id",
+                    "issue_new_capital_call"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "alto_user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": 200,\n  \"currency\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://altoira.sandbox.altoira.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3b1237b2-bed3-4d06-be0a-c6a179a2556c",
+    "name": "AltoIRA.com Investment API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The actions are performed as the manager of an offering, not as a specific user. Authentication uses the `Basic Auth` header (same as the Offering endpoints)\n\nContact Support:\n Name: AltoIRA\n Email: help@altoira.com",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AltoIRA.com User API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "user",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get user account information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://altoira.sandbox.altoira.com/api/user",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve account information for the user you’re logged-in as"
+        },
+        {
+          "info": {
+            "name": "Updates the user’s account information",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://altoira.sandbox.altoira.com/api/user",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "This is meant to be called one time immediately after the user first grants you OAuth access to their account. Values that contradict user-supplied info will not be saved. Data submitted is first reviewed by the investor before being updated to update their account details"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

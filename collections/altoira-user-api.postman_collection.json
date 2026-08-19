@@ -1,0 +1,317 @@
+{
+  "item": [
+    {
+      "id": "134dbf5d-84be-4f39-81e3-cc3af212e9a9",
+      "name": "user",
+      "description": {
+        "content": "These actions are performed within the context of a specific user (uses OAuth2 with an `Authorization: Bearer` header)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "085b8783-dab1-456e-a772-cfae1eb8d543",
+          "name": "Get user account information",
+          "request": {
+            "name": "Get user account information",
+            "description": {
+              "content": "Retrieve account information for the user you’re logged-in as",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "user"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "66ff9393-5f65-45e7-838e-95554ebef877",
+              "name": "Successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1070,\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"email\": \"john@example.com\",\n  \"accounts\": [\n    {\n      \"account_type\": \"Roth\",\n      \"alto_account_number\": 100,\n      \"investing_entity_name\": \"AltoIRA Empire Trust Custodian FBO John Smith Roth IRA\",\n      \"authorized_signer\": \"Eric Satz, CEO\",\n      \"ira_ein\": \"12-1234567\",\n      \"ira_address\": \"615 Main St, 129 Nashville, TN 37206\",\n      \"email_address\": \"signaturerequests@altoira.com\",\n      \"phone_number\": \"(877) 673-1557\",\n      \"banking_information\": {\n        \"bank\": \"Pinnacle Financial Partners 150 3rd Ave. South, Suite 900 Nashville, TN 37201\",\n        \"recipient\": \"Empire Trust, Inc 8801 Jefferson NE Bldg. C Albuquerque, NM 87113\",\n        \"routing_number\": \"string\",\n        \"account_number\": \"string\"\n      }\n    },\n    {\n      \"account_type\": \"Roth\",\n      \"alto_account_number\": 100,\n      \"investing_entity_name\": \"AltoIRA Empire Trust Custodian FBO John Smith Roth IRA\",\n      \"authorized_signer\": \"Eric Satz, CEO\",\n      \"ira_ein\": \"12-1234567\",\n      \"ira_address\": \"615 Main St, 129 Nashville, TN 37206\",\n      \"email_address\": \"signaturerequests@altoira.com\",\n      \"phone_number\": \"(877) 673-1557\",\n      \"banking_information\": {\n        \"bank\": \"Pinnacle Financial Partners 150 3rd Ave. South, Suite 900 Nashville, TN 37201\",\n        \"recipient\": \"Empire Trust, Inc 8801 Jefferson NE Bldg. C Albuquerque, NM 87113\",\n        \"routing_number\": \"string\",\n        \"account_number\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "379d0a65-28e5-4c5e-83f6-6f1ba8112a90",
+          "name": "Updates the user’s account information",
+          "request": {
+            "name": "Updates the user’s account information",
+            "description": {
+              "content": "This is meant to be called one time immediately after the user first grants you OAuth access to their account. Values that contradict user-supplied info will not be saved. Data submitted is first reviewed by the investor before being updated to update their account details",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "user"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ssn\": \"<string>\",\n  \"dob\": \"<string>\",\n  \"phone\": \"<string>\",\n  \"address\": \"<string>\",\n  \"address_line_2\": \"<string>\",\n  \"city\": \"<string>\",\n  \"state\": \"<string>\",\n  \"zip\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3452a035-428f-46ca-891e-e963bdf9581e",
+              "name": "Successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ssn\": \"123-44-6666\",\n  \"dob\": \"1980-10-05\",\n  \"phone\": \"480-950-0001\",\n  \"address\": \"405 Main St\",\n  \"address_line_2\": \"Apt 2\",\n  \"city\": \"Nashville\",\n  \"state\": \"TN\",\n  \"zip\": \"37209\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "76018697-edac-4b98-a702-4856307ec2dd",
+              "name": "Invalid user supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ssn\": \"123-44-6666\",\n  \"dob\": \"1980-10-05\",\n  \"phone\": \"480-950-0001\",\n  \"address\": \"405 Main St\",\n  \"address_line_2\": \"Apt 2\",\n  \"city\": \"Nashville\",\n  \"state\": \"TN\",\n  \"zip\": \"37209\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8e4221aa-3df7-4d6e-a12d-8b079d5473a0",
+              "name": "User not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ssn\": \"123-44-6666\",\n  \"dob\": \"1980-10-05\",\n  \"phone\": \"480-950-0001\",\n  \"address\": \"405 Main St\",\n  \"address_line_2\": \"Apt 2\",\n  \"city\": \"Nashville\",\n  \"state\": \"TN\",\n  \"zip\": \"37209\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://altoira.sandbox.altoira.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "16090741-dac1-44c9-b1f2-4f93ac29df8e",
+    "name": "AltoIRA.com User API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "These actions are performed within the context of a specific user (uses OAuth2 with an `Authorization: Bearer` header)\n\nContact Support:\n Name: AltoIRA\n Email: help@altoira.com",
+      "type": "text/plain"
+    }
+  }
+}

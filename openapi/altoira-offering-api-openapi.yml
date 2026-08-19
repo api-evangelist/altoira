@@ -1,0 +1,367 @@
+openapi: 3.2.0
+info:
+  version: 1.0.0
+  title: AltoIRA.com Offering API
+  contact:
+    name: AltoIRA
+    email: help@altoira.com
+    url: https://www.altoira.com
+  description: The actions are performed as the manager of an offering, not as a specific user. Authentication uses the `Basic Auth` header
+servers:
+- url: https://altoira.sandbox.altoira.com
+  description: Test API / Sandbox
+- url: https://www.altoira.com
+  description: Production API
+tags:
+- name: offering
+  description: The actions are performed as the manager of an offering, not as a specific user. Authentication uses the `Basic Auth` header
+paths:
+  /api/platform/offerings:
+    get:
+      security:
+      - PlatformAuth: []
+      tags:
+      - offering
+      summary: List of all Offerings
+      description: Returns of the list of the external_ids for all offerings that have ever been setup in Alto.
+      operationId: getOfferings
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                - '8293'
+                - '21923'
+                - '4532'
+                items:
+                  type: string
+  /api/platform/offering/{external_id}:
+    get:
+      security:
+      - PlatformAuth: []
+      tags:
+      - offering
+      summary: Offering details
+      description: This endpoint allows you to retrieve details about one of your offerings using the ID numbers you specified on creation (not the Alto offering ID).
+      operationId: getOffering
+      parameters:
+      - $ref: '#/components/parameters/external_id'
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: '12345'
+                    description: The external ID you assigned to this offering (same value as the path parameter).
+                  name:
+                    type: string
+                    example: AngelList - Acme Toys Seed Round
+                  type:
+                    type: string
+                    enum:
+                    - company
+                  documents:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                          example: 123
+                        filename:
+                          type: string
+                          example: agreement.pdf
+                        type:
+                          type: string
+                          example: subscription_agreement
+                  missing_documents:
+                    type: array
+                    example:
+                    - operating_agreement
+                    items:
+                      type: string
+        '404':
+          description: You have not created the deal in Alto
+    post:
+      security:
+      - PlatformAuth: []
+      tags:
+      - offering
+      summary: Create a new Alto Offering
+      description: Investors will not be able to complete the funding process until required documents are uploaded for the offering. If the Offering already exists, no action will be taken.
+      operationId: createOffering
+      parameters:
+      - $ref: '#/components/parameters/external_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: AngelList - Acme Toys Seed Round
+                type:
+                  type: string
+                  enum:
+                  - company
+                funds_recipient:
+                  type: string
+                  description: The actual recipient of funds (not the intermediate entity)
+                  example: Acme Toys, LLC
+                entity_type:
+                  type: string
+                  enum:
+                  - llc
+                  - lp
+                  - c_corp
+                security_type:
+                  type: string
+                  enum:
+                  - units
+                  - shares
+                  - ownership_percent
+                  - convertible_note
+                  - promissory_note
+                  - safe
+                  - membership_interest
+                  - partnership_interest
+                  - crowd_safe_st
+                  - crowd_safe
+                  - crowd_sda
+                  - crowd_tpa
+                  - token_dpa
+                tax_id:
+                  type: string
+                  description: (Optional) For type=company, the Employer ID Number is needed at some point
+                  example: 22-1234567
+                valuation_cap:
+                  type: number
+                  example: 2000000
+                  description: (Optional) Maximum valuation in USD for this round
+                discount_percent:
+                  type: number
+                  example: 15
+                  description: (Optional) Discount to next equity financing (used for SAFE & Convertible Note)
+                has_capital_calls:
+                  type: boolean
+                  example: 1
+                  description: (Optional) Defaults to false. If false, the commitment is fully funded at closing. If true, capital calls can be issued after closing. Using capital calls will prevent you from increasing the investment amount after closing.
+                funds_transfer_type:
+                  type: string
+                  example: ach
+                  description: (Optional) How you want us to send the funds. ACH is default.
+                  enum:
+                  - ach
+                  - wire
+                routing_num:
+                  type: number
+                  example: 12345687
+                  description: Bank account to send your funds to
+                account_num:
+                  type: number
+                  example: 51391323
+                  description: Bank account to send your funds to
+                account_holder_name:
+                  type: string
+                  example: ACME Widgets, LLC
+                  description: (Optional) Name on bank account we're sending your funds to
+                account_holder_address:
+                  type: string
+                  example: 1234 Your Business Blvd, Suite 111, Nashville, TN
+                  description: (Optional) The billing address registered on your bank account
+                bank_name:
+                  type: string
+                  example: Bank of America
+                  description: (Optional) Bank account to send your funds to
+                bank_address:
+                  type: string
+                  example: 3003 Tasman Drive, Santa Clara, CA 95054
+                  description: (Optional) Physical address of the bank itself
+      responses:
+        '201':
+          description: Successful
+        '409':
+          description: Failure
+    put:
+      security:
+      - PlatformAuth: []
+      tags:
+      - offering
+      summary: Update a previously created offering
+      description: Certain fields can be added after initial Offering creation
+      operationId: updateOffering
+      parameters:
+      - $ref: '#/components/parameters/external_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tax_id:
+                  type: string
+                  description: (Optional) For type=company, the Employer ID Number is needed at some point
+                  example: 22-1234567
+      responses:
+        '200':
+          description: Successful
+        '422':
+          description: 'Unprocessable entity — the update could not be applied. Returned when a field that already has a value would be changed ("Cannot change value for existing field: {field}"), or when the request contains no updatable fields ("No data was detected in your payload").'
+  /api/platform/offering/{external_id}/documents:
+    post:
+      security:
+      - PlatformAuth: []
+      tags:
+      - offering
+      summary: Upload a document
+      description: You may either use type=bundle if you have a single PDF, or upload each separately
+      operationId: createDocument
+      parameters:
+      - $ref: '#/components/parameters/external_id'
+      - name: type
+        in: query
+        required: true
+        description: Document type code
+        schema:
+          type: string
+          enum:
+          - operating_agreement
+          - purchase_agreement
+          - company_formation
+          - convertible_note
+          - bundle
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                document:
+                  type: string
+                  format: binary
+                  example: binary payload (multipart/form-data)
+      responses:
+        '201':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1234
+  /api/platform/offering/{external_id}/documents_as_zip:
+    post:
+      security:
+      - PlatformAuth: []
+      tags:
+      - offering
+      summary: Upload a .zip archive
+      description: Upload all of an offering's documents in a single .zip archive (PDF, .doc, or .docx — Word files are converted to PDF). Alto sets each file's document type by matching its filename to the keywords in the mapping below. For most integrations we recommend /documents instead, where you set each document's type explicitly.
+      operationId: createDocumentViaZip
+      parameters:
+      - $ref: '#/components/parameters/external_id'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                zip:
+                  type: string
+                  format: binary
+                  example: binary payload (multipart/form-data)
+      responses:
+        '201':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  file_count:
+                    type: integer
+                    example: 3
+  /api/platform/offering/{external_id}/enable_for_investor/{alto_user_id}:
+    put:
+      security:
+      - PlatformAuth: []
+      tags:
+      - offering
+      summary: Allow a user to participate in an offering and restrict their investment amount. You may also change the investment amount.
+      operationId: enableOffering
+      parameters:
+      - $ref: '#/components/parameters/external_id'
+      - name: alto_user_id
+        in: path
+        required: true
+        schema:
+          type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                commitment_amount:
+                  type: number
+                  example: 1000.45
+                investment_currency:
+                  type: string
+                  enum:
+                  - USD
+                external_investment_id:
+                  type: string
+                  description: Optional - The ID you use internally to identify this investment
+      responses:
+        '200':
+          description: Successful
+        '404':
+          description: Offering hasn't been created
+        '422':
+          description: If called after a user has already signed off on the investment, a failure is returned
+components:
+  parameters:
+    external_id:
+      name: external_id
+      example: '12345'
+      in: path
+      description: The ID you use internally to identify this Offering
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    PlatformAuth:
+      type: http
+      scheme: basic
+      description: Basic Auth credentials that were assigned to you by Alto
+    UserAuth:
+      type: http
+      scheme: bearer
+      description: 'Specify the OAuth token generated by calling /oauth/token. It will be used in the "Authorization: Bearer" header'
+    UserOauth:
+      type: oauth2
+      description: Redirect your users to /oauth/authorize to get started (see the OAuth section on this documentation)
+      flows:
+        authorizationCode:
+          authorizationUrl: https://altoira.sandbox.altoira.com/oauth/authorize
+          tokenUrl: https://altoira.sandbox.altoira.com/oauth/token
+          refreshUrl: https://altoira.sandbox.altoira.com/oauth/token/refresh
+          scopes: {}
+externalDocs:
+  description: Webhooks
+  url: https://altoira.sandbox.altoira.com/documents/webhooks.txt
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true
+  samples-enabled: true

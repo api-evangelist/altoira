@@ -1,0 +1,125 @@
+{
+  "item": [
+    {
+      "id": "8b05154c-6b4f-4dae-a64e-c758cb9ff134",
+      "name": "oauth",
+      "description": {
+        "content": "Provides access to an investor's account. Generates a token to be used with the \"user\" endpoints below",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "db1a8c16-93a0-496b-8c61-e6b5d72d8eef",
+          "name": "Generate a token to access an investor's account.",
+          "request": {
+            "name": "Generate a token to access an investor's account.",
+            "description": {
+              "content": "Access Tokens expire after  15 days (regardless of use). Refresh tokens expire after 90 days and can only be used once (a new refresh token is issued upon refresh)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "oauth",
+                "token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"grant_type\": \"<string>\",\n  \"code\": \"<string>\",\n  \"refresh_token\": \"<string>\",\n  \"client_id\": \"<string>\",\n  \"client_secret\": \"<string>\",\n  \"redirect_uri\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "71452cf3-ea1d-4474-8c1c-183c81fca25d",
+              "name": "Token issued",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "oauth",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"grant_type\": \"<string>\",\n  \"code\": \"f50200eb98f70150f132d24b6a65ee9d1eb9895d5191fef52996528...\",\n  \"refresh_token\": \"f50200eb98f70150f132d24b6a65ee9d1eb9895d5191fef52996528\",\n  \"client_id\": \"111111\",\n  \"client_secret\": \"09397056dbe85fef52975a610e1e3a96528\",\n  \"redirect_uri\": \"https://example.com/altoira/oauth_complete\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 1296000,\n  \"access_token\": \"4a70821169e801da4cb94ff265288d48378823933b8\",\n  \"refresh_token\": \"9523f83b7e3ee677a763d6e5963a7cec5d430ff7ad\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://altoira.sandbox.altoira.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "20e80569-1515-4388-a39f-2282dbfb275d",
+    "name": "AltoIRA.com OAUTH API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Provides access to an investor's account. Generates a token to be used with the \"user\" endpoints below\n\nContact Support:\n Name: AltoIRA\n Email: help@altoira.com",
+      "type": "text/plain"
+    }
+  }
+}

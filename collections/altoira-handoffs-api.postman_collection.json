@@ -1,0 +1,228 @@
+{
+  "item": [
+    {
+      "id": "a240cf77-3f21-4f7e-9d54-12c893c0301c",
+      "name": "handoffs",
+      "description": {
+        "content": "These are the endpoints you will redirect your investors to (these are NOT api endpoints so you cannot use the Try it out tool)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7f59e7c8-ee87-432f-885d-ae1e9d97ee8a",
+          "name": "Allows investor to approve access to his/her account",
+          "request": {
+            "name": "Allows investor to approve access to his/her account",
+            "description": {
+              "content": "Once access is approved by the investor, we will generate an auth \"code\" and send it back to your `redirect_uri` in a query string parameter named \"code\".",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "oauth",
+                "authorize"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "client_id",
+                  "value": "<string>",
+                  "description": "(Required) Alto Provided Code"
+                },
+                {
+                  "disabled": false,
+                  "key": "response_type",
+                  "value": "<string>",
+                  "description": "(Required) Use \"code\""
+                },
+                {
+                  "disabled": false,
+                  "key": "scope",
+                  "value": "<string>",
+                  "description": "Not used. Leave this blank — Alto does not scope access; a token grants full access to the investor's account."
+                },
+                {
+                  "disabled": false,
+                  "key": "redirect_uri",
+                  "value": "<string>",
+                  "description": "(Required) Must match what we have on file"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d395ba9f-9b2b-4362-9a2f-c4b872c4a84c",
+              "name": "No response (you are redirecting the user to Alto's site)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "oauth",
+                    "authorize"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "client_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "response_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "scope",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "redirect_uri",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d3579f85-7039-4347-94fa-bec65b07cd1d",
+          "name": "Allows the user to complete the funding process",
+          "request": {
+            "name": "Allows the user to complete the funding process",
+            "description": {
+              "content": "Ensure that you have first enabled access to the Offering for this investor (see /api/platform/offering/{external_id}/enable_for_investor)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "offering",
+                "platform",
+                ":platform_code",
+                ":external_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "platform_code",
+                  "description": "(Required) The code assigned to your account (ie: angellist)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "external_id",
+                  "description": "(Required) The ID you use internally to identify this Offering"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "248b5653-d897-419d-823f-94a6ae27dadf",
+              "name": "No response (you are redirecting the user to Alto's site)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "offering",
+                    "platform",
+                    ":platform_code",
+                    ":external_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "platform_code",
+                      "description": "(Required) The code assigned to your account (ie: angellist)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://altoira.sandbox.altoira.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ce69b8ae-ef7e-4f16-809d-8adc015d2aca",
+    "name": "AltoIRA.com Handoffs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "These are the endpoints you will redirect your investors to (these are NOT api endpoints so you cannot use the Try it out tool)\n\nContact Support:\n Name: AltoIRA\n Email: help@altoira.com",
+      "type": "text/plain"
+    }
+  }
+}

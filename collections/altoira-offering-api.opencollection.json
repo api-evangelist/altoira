@@ -1,0 +1,221 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AltoIRA.com Offering API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "offering",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List of all Offerings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://altoira.sandbox.altoira.com/api/platform/offerings",
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns of the list of the external_ids for all offerings that have ever been setup in Alto."
+        },
+        {
+          "info": {
+            "name": "Offering details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://altoira.sandbox.altoira.com/api/platform/offering/:external_id",
+            "params": [
+              {
+                "name": "external_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID you use internally to identify this Offering"
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "This endpoint allows you to retrieve details about one of your offerings using the ID numbers you specified on creation (not the Alto offering ID)."
+        },
+        {
+          "info": {
+            "name": "Create a new Alto Offering",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://altoira.sandbox.altoira.com/api/platform/offering/:external_id",
+            "params": [
+              {
+                "name": "external_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID you use internally to identify this Offering"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Investors will not be able to complete the funding process until required documents are uploaded for the offering. If the Offering already exists, no action will be taken."
+        },
+        {
+          "info": {
+            "name": "Update a previously created offering",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://altoira.sandbox.altoira.com/api/platform/offering/:external_id",
+            "params": [
+              {
+                "name": "external_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID you use internally to identify this Offering"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Certain fields can be added after initial Offering creation"
+        },
+        {
+          "info": {
+            "name": "Upload a document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://altoira.sandbox.altoira.com/api/platform/offering/:external_id/documents",
+            "params": [
+              {
+                "name": "external_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID you use internally to identify this Offering"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Document type code"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "document",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "You may either use type=bundle if you have a single PDF, or upload each separately"
+        },
+        {
+          "info": {
+            "name": "Upload a .zip archive",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://altoira.sandbox.altoira.com/api/platform/offering/:external_id/documents_as_zip",
+            "params": [
+              {
+                "name": "external_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID you use internally to identify this Offering"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "zip",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Upload all of an offering's documents in a single .zip archive (PDF, .doc, or .docx — Word files are converted to PDF). Alto sets each file's document type by matching its filename to the keywords in the mapping below. For most integrations we recommend /documents instead, where you set each document's type explicitly."
+        },
+        {
+          "info": {
+            "name": "Allow a user to participate in an offering and restrict their investment amount. You may also change the investment amount.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://altoira.sandbox.altoira.com/api/platform/offering/:external_id/enable_for_investor/:alto_user_id",
+            "params": [
+              {
+                "name": "external_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID you use internally to identify this Offering"
+              },
+              {
+                "name": "alto_user_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Allow a user to participate in an offering and restrict their investment amount. You may also change the investment amount."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

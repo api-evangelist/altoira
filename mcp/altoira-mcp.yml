@@ -3,28 +3,23 @@ method: derived
 source: openapi/altoira-partner-api-openapi.yml
 status: candidate
 published: false
-search_note: >-
-  No official or community MCP server for Alto was found. Probed the ReadMe
-  developer hub, altoira.com, the AltoIRA GitHub organization (19 public repos,
-  all forks of infrastructure tooling — no product code, no SDK, no MCP server),
-  npm, PyPI, RubyGems, Packagist, NuGet and crates.io. The tool list below is a
-  CANDIDATE derived one-to-one from the published OpenAPI operations; Alto does
-  not operate this server.
+search_note: No official or community MCP server for Alto was found. Probed the ReadMe developer hub,
+  altoira.com, the AltoIRA GitHub organization (19 public repos, all forks of infrastructure tooling —
+  no product code, no SDK, no MCP server), npm, PyPI, RubyGems, Packagist, NuGet and crates.io. The tool
+  list below is a CANDIDATE derived one-to-one from the published OpenAPI operations; Alto does not operate
+  this server.
 server:
   name: altoira
   transport: http
   url: null
   auth:
-    note: >-
-      A real server would need to carry two credentials at once: the partner's
-      HTTP Basic PlatformAuth for manager-context tools, and a per-investor
-      OAuth bearer token for the two user-context tools. They are not
-      interchangeable.
+    note: 'A real server would need to carry two credentials at once: the partner''s HTTP Basic PlatformAuth
+      for manager-context tools, and a per-investor OAuth bearer token for the two user-context tools.
+      They are not interchangeable.'
 tools:
 - name: get_user
-  description: >-
-    Get the authenticated investor's account information, including every IRA
-    they hold and the destination banking information for returning cash to it.
+  description: Get the authenticated investor's account information, including every IRA they hold and
+    the destination banking information for returning cash to it.
   source_operation: openapi/altoira-partner-api-openapi.yml#getUser
   auth: UserAuth
   consequence: read
@@ -44,9 +39,8 @@ tools:
   auth: PlatformAuth
   consequence: read
 - name: create_offering
-  description: >-
-    Create a new Alto offering — company or fund name and incorporation, security
-    type, and the bank information Alto will send funds to.
+  description: Create a new Alto offering — company or fund name and incorporation, security type, and
+    the bank information Alto will send funds to.
   source_operation: openapi/altoira-partner-api-openapi.yml#createOffering
   auth: PlatformAuth
   consequence: write
@@ -66,17 +60,13 @@ tools:
   auth: PlatformAuth
   consequence: write
 - name: enable_offering_for_investor
-  description: >-
-    Allow an investor to participate in an offering and set or change their
-    investment amount.
+  description: Allow an investor to participate in an offering and set or change their investment amount.
   source_operation: openapi/altoira-partner-api-openapi.yml#enableOffering
   auth: PlatformAuth
   consequence: write
 - name: get_investment
-  description: >-
-    View the details of an existing investment, including committed vs invested
-    amounts, DOI e-signature date, and every capital call, refund and
-    distribution transaction.
+  description: View the details of an existing investment, including committed vs invested amounts, DOI
+    e-signature date, and every capital call, refund and distribution transaction.
   source_operation: openapi/altoira-partner-api-openapi.yml#getInvestment
   auth: PlatformAuth
   consequence: read
@@ -105,18 +95,20 @@ tools:
   human_in_the_loop: recommended
 excluded_operations:
 - path: /oauth/authorize
-  reason: >-
-    Browser redirect for investor consent, tagged "handoffs". Not a callable API
-    endpoint — cannot be a tool.
+  reason: Browser redirect for investor consent, tagged "handoffs". Not a callable API endpoint — cannot
+    be a tool.
 - path: /offering/platform/{platform_code}/{external_id}
-  reason: >-
-    Browser redirect that sends the investor to Alto to complete their Direction
-    of Investment. Tagged "handoffs".
+  reason: Browser redirect that sends the investor to Alto to complete their Direction of Investment.
+    Tagged "handoffs".
 - path: /oauth/token
-  reason: >-
-    Credential exchange. Belongs in the server's auth layer, not in the tool
-    surface.
+  reason: Credential exchange. Belongs in the server's auth layer, not in the tool surface.
 coverage:
   openapi_operations: 17
   callable_operations: 14
   candidate_tools: 14
+deployment:
+  mode: none
+  verified: derived
+  tools: 14
+  checked: '2026-08-12'
+  source: catalog MCP census

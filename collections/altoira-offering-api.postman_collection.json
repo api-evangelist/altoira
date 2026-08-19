@@ -1,0 +1,1222 @@
+{
+  "item": [
+    {
+      "id": "12b27ba9-33c8-42d4-b947-e44428822ebb",
+      "name": "offering",
+      "description": {
+        "content": "The actions are performed as the manager of an offering, not as a specific user. Authentication uses the `Basic Auth` header",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bec38fb6-6e08-4c2d-a8f0-85c92af91a6d",
+          "name": "List of all Offerings",
+          "request": {
+            "name": "List of all Offerings",
+            "description": {
+              "content": "Returns of the list of the external_ids for all offerings that have ever been setup in Alto.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "platform",
+                "offerings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "321c682f-3fde-49b3-903f-82b8452f74d2",
+              "name": "Successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "offerings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  \"8293\",\n  \"21923\",\n  \"4532\"\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cba4d344-ce08-4f2f-83d1-c063339e2c69",
+          "name": "Offering details",
+          "request": {
+            "name": "Offering details",
+            "description": {
+              "content": "This endpoint allows you to retrieve details about one of your offerings using the ID numbers you specified on creation (not the Alto offering ID).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "platform",
+                "offering",
+                ":external_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "external_id",
+                  "description": "(Required) The ID you use internally to identify this Offering"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "c8ea0aba-04b3-4a7c-8c4d-c63fc895005e",
+              "name": "Successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "offering",
+                    ":external_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"12345\",\n  \"name\": \"AngelList - Acme Toys Seed Round\",\n  \"type\": \"company\",\n  \"documents\": [\n    {\n      \"id\": 123,\n      \"filename\": \"agreement.pdf\",\n      \"type\": \"subscription_agreement\"\n    },\n    {\n      \"id\": 123,\n      \"filename\": \"agreement.pdf\",\n      \"type\": \"subscription_agreement\"\n    }\n  ],\n  \"missing_documents\": [\n    \"operating_agreement\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1fbff028-49a8-4dea-85d1-d986f5f2173b",
+              "name": "You have not created the deal in Alto",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "offering",
+                    ":external_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8aff5b49-c131-4d40-b885-194f0c00e2fd",
+          "name": "Create a new Alto Offering",
+          "request": {
+            "name": "Create a new Alto Offering",
+            "description": {
+              "content": "Investors will not be able to complete the funding process until required documents are uploaded for the offering. If the Offering already exists, no action will be taken.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "platform",
+                "offering",
+                ":external_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "external_id",
+                  "description": "(Required) The ID you use internally to identify this Offering"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"funds_recipient\": \"<string>\",\n  \"entity_type\": \"<string>\",\n  \"security_type\": \"<string>\",\n  \"tax_id\": \"<string>\",\n  \"valuation_cap\": \"<number>\",\n  \"discount_percent\": \"<number>\",\n  \"has_capital_calls\": \"<boolean>\",\n  \"funds_transfer_type\": \"<string>\",\n  \"routing_num\": \"<number>\",\n  \"account_num\": \"<number>\",\n  \"account_holder_name\": \"<string>\",\n  \"account_holder_address\": \"<string>\",\n  \"bank_name\": \"<string>\",\n  \"bank_address\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "66409197-36a9-4984-a989-99b091c8ff1f",
+              "name": "Successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "offering",
+                    ":external_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"AngelList - Acme Toys Seed Round\",\n  \"type\": \"<string>\",\n  \"funds_recipient\": \"Acme Toys, LLC\",\n  \"entity_type\": \"<string>\",\n  \"security_type\": \"<string>\",\n  \"tax_id\": \"22-1234567\",\n  \"valuation_cap\": 2000000,\n  \"discount_percent\": 15,\n  \"has_capital_calls\": \"<boolean>\",\n  \"funds_transfer_type\": \"ach\",\n  \"routing_num\": 12345687,\n  \"account_num\": 51391323,\n  \"account_holder_name\": \"ACME Widgets, LLC\",\n  \"account_holder_address\": \"1234 Your Business Blvd, Suite 111, Nashville, TN\",\n  \"bank_name\": \"Bank of America\",\n  \"bank_address\": \"3003 Tasman Drive, Santa Clara, CA 95054\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "08e054ff-218e-4212-bd80-e438c621fced",
+              "name": "Failure",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "offering",
+                    ":external_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"AngelList - Acme Toys Seed Round\",\n  \"type\": \"<string>\",\n  \"funds_recipient\": \"Acme Toys, LLC\",\n  \"entity_type\": \"<string>\",\n  \"security_type\": \"<string>\",\n  \"tax_id\": \"22-1234567\",\n  \"valuation_cap\": 2000000,\n  \"discount_percent\": 15,\n  \"has_capital_calls\": \"<boolean>\",\n  \"funds_transfer_type\": \"ach\",\n  \"routing_num\": 12345687,\n  \"account_num\": 51391323,\n  \"account_holder_name\": \"ACME Widgets, LLC\",\n  \"account_holder_address\": \"1234 Your Business Blvd, Suite 111, Nashville, TN\",\n  \"bank_name\": \"Bank of America\",\n  \"bank_address\": \"3003 Tasman Drive, Santa Clara, CA 95054\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b63c2dd3-77a1-47c5-b8da-d79d2d294673",
+          "name": "Update a previously created offering",
+          "request": {
+            "name": "Update a previously created offering",
+            "description": {
+              "content": "Certain fields can be added after initial Offering creation",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "platform",
+                "offering",
+                ":external_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "external_id",
+                  "description": "(Required) The ID you use internally to identify this Offering"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tax_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f8bce5bd-cb66-4b02-a1ec-237fa4bb4e0f",
+              "name": "Successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "offering",
+                    ":external_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tax_id\": \"22-1234567\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ebe4bc6a-3974-48c4-93f6-2918179d8e8d",
+              "name": "Unprocessable entity — the update could not be applied. Returned when a field that already has a value would be changed (\"Cannot change value for existing field: {field}\"), or when the request contains no updatable fields (\"No data was detected in your payload\").",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "offering",
+                    ":external_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tax_id\": \"22-1234567\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3d7fc396-161c-4191-9954-aa003c58bbfa",
+          "name": "Upload a document",
+          "request": {
+            "name": "Upload a document",
+            "description": {
+              "content": "You may either use type=bundle if you have a single PDF, or upload each separately",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "platform",
+                "offering",
+                ":external_id",
+                "documents"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "(Required) Document type code"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "external_id",
+                  "description": "(Required) The ID you use internally to identify this Offering"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "document",
+                  "type": "file",
+                  "description": ""
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "632fe690-3186-486f-ad66-a4b8da136537",
+              "name": "Successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "offering",
+                    ":external_id",
+                    "documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "document",
+                      "value": "binary payload (multipart/form-data)",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1234\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1559d250-5083-4add-9ca9-c28b42e78140",
+          "name": "Upload a .zip archive",
+          "request": {
+            "name": "Upload a .zip archive",
+            "description": {
+              "content": "Upload all of an offering's documents in a single .zip archive (PDF, .doc, or .docx — Word files are converted to PDF). Alto sets each file's document type by matching its filename to the keywords in the mapping below. For most integrations we recommend /documents instead, where you set each document's type explicitly.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "platform",
+                "offering",
+                ":external_id",
+                "documents_as_zip"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "external_id",
+                  "description": "(Required) The ID you use internally to identify this Offering"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "zip",
+                  "type": "file",
+                  "description": ""
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "191e789e-c449-4481-8848-ca4b09d941ad",
+              "name": "Successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "offering",
+                    ":external_id",
+                    "documents_as_zip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "zip",
+                      "value": "binary payload (multipart/form-data)",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"file_count\": 3\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0b552d2a-6cba-4a89-84ae-ef820668561a",
+          "name": "Allow a user to participate in an offering and restrict their investment amount. You may also change the investment amount.",
+          "request": {
+            "name": "Allow a user to participate in an offering and restrict their investment amount. You may also change the investment amount.",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "platform",
+                "offering",
+                ":external_id",
+                "enable_for_investor",
+                ":alto_user_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "external_id",
+                  "description": "(Required) The ID you use internally to identify this Offering"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "alto_user_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"commitment_amount\": \"<number>\",\n  \"investment_currency\": \"<string>\",\n  \"external_investment_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "de2d3fea-6d38-4cc3-a97c-0a8102522015",
+              "name": "Successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "offering",
+                    ":external_id",
+                    "enable_for_investor",
+                    ":alto_user_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "alto_user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"commitment_amount\": 1000.45,\n  \"investment_currency\": \"<string>\",\n  \"external_investment_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b6119107-d343-4c90-8d55-2da3884f4ed3",
+              "name": "Offering hasn't been created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "offering",
+                    ":external_id",
+                    "enable_for_investor",
+                    ":alto_user_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "alto_user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"commitment_amount\": 1000.45,\n  \"investment_currency\": \"<string>\",\n  \"external_investment_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c1dd5538-a0e6-4d9d-a7e6-58d652ba745c",
+              "name": "If called after a user has already signed off on the investment, a failure is returned",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "platform",
+                    "offering",
+                    ":external_id",
+                    "enable_for_investor",
+                    ":alto_user_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "external_id",
+                      "description": "(Required) The ID you use internally to identify this Offering"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "alto_user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"commitment_amount\": 1000.45,\n  \"investment_currency\": \"<string>\",\n  \"external_investment_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://altoira.sandbox.altoira.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "0ba2ab61-4995-4291-93bd-b7612c555243",
+    "name": "AltoIRA.com Offering API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The actions are performed as the manager of an offering, not as a specific user. Authentication uses the `Basic Auth` header\n\nContact Support:\n Name: AltoIRA\n Email: help@altoira.com",
+      "type": "text/plain"
+    }
+  }
+}

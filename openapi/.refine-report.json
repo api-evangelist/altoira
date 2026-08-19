@@ -1,0 +1,29 @@
+{
+  "provider": "altoira",
+  "sources": [
+    "altoira-handoffs-api-openapi.yml",
+    "altoira-investment-api-openapi.yml",
+    "altoira-oauth-api-openapi.yml",
+    "altoira-offering-api-openapi.yml",
+    "altoira-user-api-openapi.yml"
+  ],
+  "outputs": [
+    "altoira-handoffs-api-openapi.yml",
+    "altoira-investment-api-openapi.yml",
+    "altoira-oauth-api-openapi.yml",
+    "altoira-offering-api-openapi.yml",
+    "altoira-user-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "altoira-handoffs-api-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "altoira-investment-api-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "altoira-oauth-api-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "altoira-offering-api-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "altoira-user-api-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": []
+}
