@@ -21,6 +21,19 @@ created: '2026-08-06'
 modified: '2026-08-06'
 tags:
 - Company
+- Financial-Services
+- Retirement
+- Self-Directed IRA
+- Alternative Investments
+- Private Markets
+- Fintech
+- Custody
+- Cryptocurrency
+- Wealth Management
+- Investing
+- Capital Raising
+tags_raw:
+- Company
 - Financial Services
 - Retirement
 - Self-Directed IRA
@@ -77,6 +90,8 @@ apis:
   humanURL: https://readme.altoira.com/reference
   baseURL: https://www.altoira.com
   tags:
+  - Investment
+  tags_raw:
   - investment
   properties:
   - type: OpenAPI
@@ -112,6 +127,8 @@ apis:
   humanURL: https://readme.altoira.com/reference
   baseURL: https://www.altoira.com
   tags:
+  - Authentication
+  tags_raw:
   - oauth
   properties:
   - type: OpenAPI
@@ -148,6 +165,8 @@ apis:
   humanURL: https://readme.altoira.com/reference
   baseURL: https://www.altoira.com
   tags:
+  - Offering
+  tags_raw:
   - offering
   properties:
   - type: OpenAPI
@@ -184,6 +203,8 @@ apis:
   humanURL: https://readme.altoira.com/reference
   baseURL: https://www.altoira.com
   tags:
+  - User
+  tags_raw:
   - user
   properties:
   - type: OpenAPI
