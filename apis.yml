@@ -12,6 +12,18 @@ description: 'Alto (AltoIRA) is a Nashville-based self-directed IRA platform tha
   covers OAuth investor handoff, offering creation, document upload, investor
   invitation, investment retrieval, refunds, cancellations, distributions and capital
   calls, plus an investment-status webhook feed.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://cdn.prod.website-files.com/662048df2bce7baa72aab3f3/662ae161e60cc17317200006_Altologo.svg
 url: https://raw.githubusercontent.com/api-evangelist/altoira/refs/heads/main/apis.yml
 x-type: company
