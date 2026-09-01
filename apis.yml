@@ -102,7 +102,7 @@ apis:
   humanURL: https://readme.altoira.com/reference
   baseURL: https://www.altoira.com
   tags:
-  - investment
+  - Investment
   tags_raw:
   - investment
   properties:
@@ -177,7 +177,7 @@ apis:
   humanURL: https://readme.altoira.com/reference
   baseURL: https://www.altoira.com
   tags:
-  - offering
+  - Offering
   tags_raw:
   - offering
   properties:
