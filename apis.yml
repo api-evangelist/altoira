@@ -145,43 +145,6 @@ apis:
     url: sandbox/altoira-sandbox.yml
   - type: ToolCrosswalk
     url: mcp/altoira-tool-crosswalk.yml
-- aid: altoira:altoira-oauth-api
-  name: AltoIRA OAUTH API
-  description: >-
-    Provides access to an investor's account. Generates a token to be used with the "user" endpoints below
-  humanURL: https://readme.altoira.com/reference
-  baseURL: https://www.altoira.com
-  tags:
-  - Authentication
-  tags_raw:
-  - oauth
-  properties:
-  - type: OpenAPI
-    url: openapi/altoira-oauth-api-openapi.yml
-  - type: Documentation
-    url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
-  - type: APIReference
-    url: https://readme.altoira.com/reference
-  - type: GettingStarted
-    url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
-  - type: Webhooks
-    url: asyncapi/altoira-investments-webhooks.yml
-  - type: AsyncAPI
-    url: asyncapi/altoira-investments-asyncapi.yml
-  - type: Authentication
-    url: authentication/altoira-authentication.yml
-  - type: OAuthScopes
-    url: scopes/altoira-scopes.yml
-  - type: ErrorCatalog
-    url: errors/altoira-problem-types.yml
-  - type: Conventions
-    url: conventions/altoira-conventions.yml
-  - type: DataModel
-    url: data-model/altoira-data-model.yml
-  - type: Sandbox
-    url: sandbox/altoira-sandbox.yml
-  - type: ToolCrosswalk
-    url: mcp/altoira-tool-crosswalk.yml
 - aid: altoira:altoira-offering-api
   name: AltoIRA Offering API
   description: >-
@@ -234,6 +197,41 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/altoira-user-api-openapi.yml
+  - type: Documentation
+    url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
+  - type: APIReference
+    url: https://readme.altoira.com/reference
+  - type: GettingStarted
+    url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
+  - type: Webhooks
+    url: asyncapi/altoira-investments-webhooks.yml
+  - type: AsyncAPI
+    url: asyncapi/altoira-investments-asyncapi.yml
+  - type: Authentication
+    url: authentication/altoira-authentication.yml
+  - type: OAuthScopes
+    url: scopes/altoira-scopes.yml
+  - type: ErrorCatalog
+    url: errors/altoira-problem-types.yml
+  - type: Conventions
+    url: conventions/altoira-conventions.yml
+  - type: DataModel
+    url: data-model/altoira-data-model.yml
+  - type: Sandbox
+    url: sandbox/altoira-sandbox.yml
+  - type: ToolCrosswalk
+    url: mcp/altoira-tool-crosswalk.yml
+- aid: altoira:altoira-oauth-api
+  name: AltoIRA OAUTH API
+  description: >-
+    Provides access to an investor's account. Generates a token to be used with the "user" endpoints below
+  humanURL: https://readme.altoira.com/reference
+  baseURL: https://www.altoira.com
+  tags:
+  - oauth
+  properties:
+  - type: OpenAPI
+    url: openapi/altoira-oauth-api-openapi.yml
   - type: Documentation
     url: https://readme.altoira.com/docs/understand-the-oauth-process-to-alto
   - type: APIReference
