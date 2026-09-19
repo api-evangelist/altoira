@@ -44,6 +44,9 @@ x-source: harvest:secondary-market
 specificationVersion: '0.23'
 created: '2026-08-06'
 modified: '2026-08-06'
+x-docs-platform: readme
+x-docs-platform-confidence: high
+x-docs-platform-checked: 2026-09-17
 tags:
 - Company
 - Financial-Services
@@ -228,6 +231,8 @@ apis:
   humanURL: https://readme.altoira.com/reference
   baseURL: https://www.altoira.com
   tags:
+  - Authentication
+  tags_raw:
   - oauth
   properties:
   - type: OpenAPI
