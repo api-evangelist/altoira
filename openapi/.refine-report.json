@@ -1,11 +1,7 @@
 {
   "provider": "altoira",
   "sources": [
-    "altoira-handoffs-api-openapi.yml",
-    "altoira-investment-api-openapi.yml",
-    "altoira-oauth-api-openapi.yml",
-    "altoira-offering-api-openapi.yml",
-    "altoira-user-api-openapi.yml"
+    "_original/altoira-partner-api-openapi-original.json"
   ],
   "outputs": [
     "altoira-handoffs-api-openapi.yml",
@@ -14,16 +10,24 @@
     "altoira-offering-api-openapi.yml",
     "altoira-user-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
-    "altoira-handoffs-api-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
-    "altoira-investment-api-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
-    "altoira-oauth-api-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
-    "altoira-offering-api-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
-    "altoira-user-api-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
-    "apis.yml register: already-registered"
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "altoira-partner-api-openapi-original.json: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "superseded outputs removed: altoira-o-auth-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 5 total)"
   ],
-  "skipped": []
+  "skipped": [
+    "_original/altoira-partner-api-openapi.yml: archived document superseded by a larger archived document",
+    "altoira-handoffs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altoira-investment-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altoira-o-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altoira-offering-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "altoira-user-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

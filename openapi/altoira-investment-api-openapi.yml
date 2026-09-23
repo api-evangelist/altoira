@@ -13,7 +13,7 @@ servers:
 - url: https://www.altoira.com
   description: Production API
 tags:
-- name: investment
+- name: Investment
   description: The actions are performed as the manager of an offering, not as a specific user. Authentication uses the `Basic Auth` header (same as the Offering endpoints)
 paths:
   /api/platform/offering/{external_id}/{alto_user_id}/investment:
@@ -21,7 +21,7 @@ paths:
       security:
       - PlatformAuth: []
       tags:
-      - investment
+      - Investment
       summary: View specific details of existing investments
       description: This endpoint allows you to retrieve details about one of your investments using the ID numbers you specified on creation (not the Alto offering ID).
       operationId: getInvestment
@@ -50,7 +50,7 @@ paths:
       security:
       - PlatformAuth: []
       tags:
-      - investment
+      - Investment
       summary: Refund the investor some/all of their capital
       description: Used AFTER Alto has already wired the money to you when the deal is closing if the deal is canceled or prorated. You are sending us the NEW investment amount. Specifying 0 as the investment amount will remove the user from the deal. Alto will expect a wire to be sent for the difference between the new and old investment amount.
       operationId: investmentRefund
@@ -85,7 +85,7 @@ paths:
       security:
       - PlatformAuth: []
       tags:
-      - investment
+      - Investment
       summary: Cancel investment if funds haven't already been sent
       description: Used BEFORE Alto has wired any funds to effectively void an investment if the investor has changed their mind and doesn't wish to proceed.
       operationId: investmentCancel
@@ -106,7 +106,7 @@ paths:
       security:
       - PlatformAuth: []
       tags:
-      - investment
+      - Investment
       summary: Pay out a distribution
       operationId: investmentDistribution
       parameters:
@@ -208,7 +208,7 @@ paths:
       security:
       - PlatformAuth: []
       tags:
-      - investment
+      - Investment
       summary: Issue a new capital call
       operationId: issueNewCapitalCall
       parameters:
@@ -235,6 +235,15 @@ paths:
         '200':
           description: Successful
 components:
+  parameters:
+    external_id:
+      name: external_id
+      example: '12345'
+      in: path
+      description: The ID you use internally to identify this Offering
+      required: true
+      schema:
+        type: string
   schemas:
     Investment:
       type: object
@@ -373,15 +382,6 @@ components:
                       date_completed:
                         type: string
                         example: '2020-01-24'
-  parameters:
-    external_id:
-      name: external_id
-      example: '12345'
-      in: path
-      description: The ID you use internally to identify this Offering
-      required: true
-      schema:
-        type: string
   securitySchemes:
     PlatformAuth:
       type: http

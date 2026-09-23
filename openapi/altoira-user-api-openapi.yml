@@ -13,7 +13,7 @@ servers:
 - url: https://www.altoira.com
   description: Production API
 tags:
-- name: user
+- name: User
   description: 'These actions are performed within the context of a specific user (uses OAuth2 with an `Authorization: Bearer` header)'
 paths:
   /api/user:
@@ -21,7 +21,7 @@ paths:
       security:
       - UserAuth: []
       tags:
-      - user
+      - User
       summary: Get user account information
       description: Retrieve account information for the user you’re logged-in as
       operationId: getUser
@@ -36,7 +36,7 @@ paths:
       security:
       - UserAuth: []
       tags:
-      - user
+      - User
       summary: Updates the user’s account information
       description: This is meant to be called one time immediately after the user first grants you OAuth access to their account. Values that contradict user-supplied info will not be saved. Data submitted is first reviewed by the investor before being updated to update their account details
       operationId: updateUser

@@ -13,7 +13,7 @@ servers:
 - url: https://www.altoira.com
   description: Production API
 tags:
-- name: offering
+- name: Offering
   description: The actions are performed as the manager of an offering, not as a specific user. Authentication uses the `Basic Auth` header
 paths:
   /api/platform/offerings:
@@ -21,7 +21,7 @@ paths:
       security:
       - PlatformAuth: []
       tags:
-      - offering
+      - Offering
       summary: List of all Offerings
       description: Returns of the list of the external_ids for all offerings that have ever been setup in Alto.
       operationId: getOfferings
@@ -43,7 +43,7 @@ paths:
       security:
       - PlatformAuth: []
       tags:
-      - offering
+      - Offering
       summary: Offering details
       description: This endpoint allows you to retrieve details about one of your offerings using the ID numbers you specified on creation (not the Alto offering ID).
       operationId: getOffering
@@ -94,7 +94,7 @@ paths:
       security:
       - PlatformAuth: []
       tags:
-      - offering
+      - Offering
       summary: Create a new Alto Offering
       description: Investors will not be able to complete the funding process until required documents are uploaded for the offering. If the Offering already exists, no action will be taken.
       operationId: createOffering
@@ -195,7 +195,7 @@ paths:
       security:
       - PlatformAuth: []
       tags:
-      - offering
+      - Offering
       summary: Update a previously created offering
       description: Certain fields can be added after initial Offering creation
       operationId: updateOffering
@@ -221,7 +221,7 @@ paths:
       security:
       - PlatformAuth: []
       tags:
-      - offering
+      - Offering
       summary: Upload a document
       description: You may either use type=bundle if you have a single PDF, or upload each separately
       operationId: createDocument
@@ -265,7 +265,7 @@ paths:
       security:
       - PlatformAuth: []
       tags:
-      - offering
+      - Offering
       summary: Upload a .zip archive
       description: Upload all of an offering's documents in a single .zip archive (PDF, .doc, or .docx — Word files are converted to PDF). Alto sets each file's document type by matching its filename to the keywords in the mapping below. For most integrations we recommend /documents instead, where you set each document's type explicitly.
       operationId: createDocumentViaZip
@@ -297,8 +297,8 @@ paths:
       security:
       - PlatformAuth: []
       tags:
-      - offering
-      summary: Allow a user to participate in an offering and restrict their investment amount. You may also change the investment amount.
+      - Offering
+      summary: Allow a user to participate in an offering and restrict their investment amount.
       operationId: enableOffering
       parameters:
       - $ref: '#/components/parameters/external_id'

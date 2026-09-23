@@ -13,15 +13,15 @@ servers:
 - url: https://www.altoira.com
   description: Production API
 tags:
-- name: oauth
+- name: OAuth
   description: Provides access to an investor's account. Generates a token to be used with the "user" endpoints below
 paths:
   /oauth/token:
     post:
       tags:
-      - oauth
-      summary: Generate a token to access an investor's account.
-      description: Access Tokens expire after  15 days (regardless of use). Refresh tokens expire after 90 days and can only be used once (a new refresh token is issued upon refresh)
+      - OAuth
+      summary: Generate a token to access an investor's account
+      description: Access Tokens expire after 15 days (regardless of use). Refresh tokens expire after 90 days and can only be used once (a new refresh token is issued upon refresh)
       requestBody:
         content:
           application/json:
@@ -57,6 +57,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OAuthToken'
+      operationId: postOauthToken
+      x-operation-id-source: derived
 components:
   schemas:
     OAuthToken:

@@ -52,6 +52,8 @@ paths:
       responses:
         '200':
           description: No response (you are redirecting the user to Alto's site)
+      operationId: getOauthAuthorize
+      x-operation-id-source: derived
   /offering/platform/{platform_code}/{external_id}:
     get:
       tags:
@@ -69,6 +71,8 @@ paths:
       responses:
         '200':
           description: No response (you are redirecting the user to Alto's site)
+      operationId: getOfferingPlatformByPlatformCodeByExternalId
+      x-operation-id-source: derived
 components:
   parameters:
     external_id:
