@@ -235,15 +235,6 @@ paths:
         '200':
           description: Successful
 components:
-  parameters:
-    external_id:
-      name: external_id
-      example: '12345'
-      in: path
-      description: The ID you use internally to identify this Offering
-      required: true
-      schema:
-        type: string
   schemas:
     Investment:
       type: object
@@ -382,6 +373,15 @@ components:
                       date_completed:
                         type: string
                         example: '2020-01-24'
+  parameters:
+    external_id:
+      name: external_id
+      example: '12345'
+      in: path
+      description: The ID you use internally to identify this Offering
+      required: true
+      schema:
+        type: string
   securitySchemes:
     PlatformAuth:
       type: http

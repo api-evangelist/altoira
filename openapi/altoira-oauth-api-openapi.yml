@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   version: 1.0.0
-  title: AltoIRA.com OAUTH API
+  title: AltoIRA.com OAuth API
   contact:
     name: AltoIRA
     email: help@altoira.com

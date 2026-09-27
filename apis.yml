@@ -49,7 +49,7 @@ x-docs-platform-confidence: high
 x-docs-platform-checked: 2026-09-17
 tags:
 - Company
-- Financial-Services
+- Financial Services
 - Retirement
 - Self-Directed IRA
 - Alternative Investments
@@ -73,6 +73,7 @@ tags_raw:
 - Wealth Management
 - Investing
 - Capital Raising
+- Financial-Services
 apis:
 - aid: altoira:altoira-handoffs-api
   name: AltoIRA Handoffs API
@@ -80,7 +81,7 @@ apis:
     These are the endpoints you will redirect your investors to (these are NOT api endpoints so you cannot
     use the Try it out tool)
   humanURL: https://readme.altoira.com/reference
-  baseURL: https://www.altoira.com
+  baseURL: https://altoira.sandbox.altoira.com
   tags:
   - handoffs
   properties:
@@ -116,7 +117,7 @@ apis:
     The actions are performed as the manager of an offering, not as a specific user. Authentication uses
     the `Basic Auth` header (same as the Offering endpoints)
   humanURL: https://readme.altoira.com/reference
-  baseURL: https://www.altoira.com
+  baseURL: https://altoira.sandbox.altoira.com
   tags:
   - Investment
   tags_raw:
@@ -154,7 +155,7 @@ apis:
     The actions are performed as the manager of an offering, not as a specific user. Authentication uses
     the `Basic Auth` header
   humanURL: https://readme.altoira.com/reference
-  baseURL: https://www.altoira.com
+  baseURL: https://altoira.sandbox.altoira.com
   tags:
   - Offering
   tags_raw:
@@ -192,7 +193,7 @@ apis:
     These actions are performed within the context of a specific user (uses OAuth2 with an `Authorization:
     Bearer` header)
   humanURL: https://readme.altoira.com/reference
-  baseURL: https://www.altoira.com
+  baseURL: https://altoira.sandbox.altoira.com
   tags:
   - User
   tags_raw:
@@ -229,7 +230,7 @@ apis:
   description: >-
     Provides access to an investor's account. Generates a token to be used with the "user" endpoints below
   humanURL: https://readme.altoira.com/reference
-  baseURL: https://www.altoira.com
+  baseURL: https://altoira.sandbox.altoira.com
   tags:
   - Authentication
   tags_raw:
