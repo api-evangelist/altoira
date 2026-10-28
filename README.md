@@ -64,5 +64,150 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-AltoIRA is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/altoira_stock/
+Alto (AltoIRA) is a Nashville-based self-directed IRA platform that lets everyday investors hold alternative assets — private equity, venture funds, startups, real estate, farmland, private credit and cryptocurrency — inside tax-advantaged Traditional, Roth and SEP retirement accounts. Alto Trust Company acts as the IRA custodian and Alto Securities, LLC (FINRA/SIPC) operates the Alto Marketplace of curated private-market offerings. Alto reports custody of roughly $2B in assets for about 30,000 self-directed IRA investors and support for more than 2,500 issuers who have raised capital on the platform. For issuers and investment platforms, Alto publishes a partner REST API (the "AltoIRA.com API") on a ReadMe developer hub that covers OAuth investor handoff, offering creation, document upload, investor invitation, investment retrieval, refunds, cancellations, distributions and capital calls, plus an investment-status webhook feed.
+
+**Areas:** Company · Financial Services · Retirement · Self-Directed IRA · Alternative Investments · Private Markets · Fintech · Custody · Cryptocurrency · Wealth Management · Investing · Capital Raising
+
+## AltoIRA on APIs.io
+
+Everything profiled for AltoIRA is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/altoira/](https://apis.io/providers/altoira/)** — or go straight to one of the APIs or properties below.
+
+### APIs (5)
+
+- [AltoIRA Handoffs API](https://apis.io/apis/altoira/altoira-handoffs-api/) — These are the endpoints you will redirect your investors to (these are NOT api endpoints so you cannot use the Try it out tool)
+- [AltoIRA Investment API](https://apis.io/apis/altoira/altoira-investment-api/) — The actions are performed as the manager of an offering, not as a specific user. Authentication uses the `Basic Auth` header (same as the Offering endpoints)
+- [AltoIRA Offering API](https://apis.io/apis/altoira/altoira-offering-api/) — The actions are performed as the manager of an offering, not as a specific user. Authentication uses the `Basic Auth` header
+- [AltoIRA User API](https://apis.io/apis/altoira/altoira-user-api/) — These actions are performed within the context of a specific user (uses OAuth2 with an `Authorization: Bearer` header)
+- [AltoIRA OAUTH API](https://apis.io/apis/altoira/altoira-oauth-api/) — Provides access to an investor's account. Generates a token to be used with the "user" endpoints below
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (2)
+
+Event-driven and webhook contracts.
+
+- [Alto Investment Status Webhooks](https://apis.io/asyncapis/altoira/altoira-investments-asyncapi/)
+- [Altoira Investments Webhooks](https://apis.io/asyncapis/altoira/altoira-investments-webhooks/)
+
+#### Event channels (1)
+
+Individual events and webhooks the provider emits.
+
+- [/](https://apis.io/channels/altoira/investmentevents/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [altoira](https://apis.io/servers/altoira/altoira/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Altoira Agentic Access](https://apis.io/agentic-access/altoira/altoira-agentic-access/)
+
+#### Collections (5)
+
+Postman and Open Collection request collections.
+
+- [AltoIRA.com Handoffs API](https://apis.io/collections/altoira/open-altoira-handoffs-api/)
+- [AltoIRA.com Investment API](https://apis.io/collections/altoira/open-altoira-investment-api/)
+- [AltoIRA.com OAUTH API](https://apis.io/collections/altoira/open-altoira-oauth-api/)
+- [AltoIRA.com Offering API](https://apis.io/collections/altoira/open-altoira-offering-api/)
+- [AltoIRA.com User API](https://apis.io/collections/altoira/open-altoira-user-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Altoira Partner Api Overlay](https://apis.io/overlays/altoira/altoira-partner-api-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Altoira Authentication](https://apis.io/security/altoira/altoira-authentication/)
+- [Altoira Domain Security](https://apis.io/security/altoira/altoira-domain-security/)
+- [Altoira Trust Center](https://apis.io/security/altoira/altoira-trust-center/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Altoira Scopes](https://apis.io/scopes/altoira/altoira-scopes/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.altoira.com/)
+- [Documentation](https://readme.altoira.com/docs/understand-the-oauth-process-to-alto)
+- [Getting started](https://readme.altoira.com/docs/understand-the-oauth-process-to-alto)
+- [API reference](https://readme.altoira.com/reference)
+- [Pricing](https://www.altoira.com/pricing)
+- [Sign up](https://app.altoira.com/register)
+- [Support](https://www.altoira.com/help-center)
+- [Blog](https://www.altoira.com/insights)
+- [Trust centre](https://trust.altoira.com/)
+- [Terms of service](https://www.altoira.com/terms-of-service)
+- [Privacy policy](https://www.altoira.com/privacy-policy)
+- [GitHub](https://github.com/AltoIRA)
+- [Status](https://status.altoira.com/)
+
+## API Evangelist rating
+
+**Kin Score 46.7** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 53.8 |
+| Contract governance | 4.5 |
+| Operational transparency | 26.3 |
+| Developer ergonomics | 47.0 |
+| Access clarity | 38.2 |
+
+**Agent readiness 42.3** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | — |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 34.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/altoira/](https://apis.io/providers/altoira/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for AltoIRA: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/altoira/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
